@@ -24,7 +24,7 @@ function Navbar() {
             <div className="hidden justify-between items-center w-full md:flex md:w-auto md:order-1">
               <div className="flex flex-col p-4 mt-4 rounded-lg border md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 ">
                 <a
-                  href="/contact"
+                  href="/signin"
                   className="text-slate-600 hover:font-bold hover:text-slate-900 hover:underline px-3 py-2 rounded-md text-base font-medium"
                 >
                   Sign in
