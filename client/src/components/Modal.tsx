@@ -18,7 +18,7 @@ const Modal: React.FC = () => {
 
   return (
     <div className="fixed">
-      <div className="fixed h-[630px] w-[840px] top-[calc(50%-630px/2)] left-[calc(50%-840px/2)] rounded-xl border-2 flex p-4">
+      <div className="fixed h-[630px] w-[840px] top-[calc(50%-630px/2)] left-[calc(50%-840px/2)] rounded-xl flex p-4 bg-white">
         <div className="flex object-cover">
           <img src={photo} alt="" />
         </div>
