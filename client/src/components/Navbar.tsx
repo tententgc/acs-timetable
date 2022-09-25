@@ -5,6 +5,10 @@ import MainCalendar from "./Calendar";
 function Navbar() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
+  const handleIsOpen = () => {
+    setIsOpen(!isOpen);
+  };
+
   return (
     <div>
       <nav className="bg-inherit border-gray-500">
@@ -17,7 +21,6 @@ function Navbar() {
               </a>
             </div>
 
-
             <div className="hidden justify-between items-center w-full md:flex md:w-auto md:order-1">
               <div className="flex flex-col p-4 mt-4 rounded-lg border md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 ">
                 <a
@@ -26,14 +29,13 @@ function Navbar() {
                 >
                   Sign in
                 </a>
-                
               </div>
             </div>
           </div>
         </div>
       </nav>
       <MainCalendar />
-      {isOpen ? <Modal /> : ""}
+      <Modal handleIsOpen={handleIsOpen} isOpen={isOpen}/>
     </div>
   );
 }
