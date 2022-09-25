@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import logo from "../assets/logo.png";
 import Modal from "./Modal";
+import MainCalendar from "./Calendar";
 function Navbar() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
@@ -16,6 +17,7 @@ function Navbar() {
               </a>
             </div>
 
+
             <div className="hidden justify-between items-center w-full md:flex md:w-auto md:order-1">
               <div className="flex flex-col p-4 mt-4 rounded-lg border md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 ">
                 <a
@@ -24,11 +26,13 @@ function Navbar() {
                 >
                   Sign in
                 </a>
+                
               </div>
             </div>
           </div>
         </div>
       </nav>
+      <MainCalendar />
       {isOpen ? <Modal /> : ""}
     </div>
   );
