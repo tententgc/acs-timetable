@@ -36,6 +36,7 @@ const Calendar: React.FC<CalendarProps> = observer((props) => {
           currYear={currYear}
           currMonth={currMonth}
           handleChangeMonth={handleChangeMonth}
+          store={props.store}
         />
         <CalendarBody
           currYear={currYear}

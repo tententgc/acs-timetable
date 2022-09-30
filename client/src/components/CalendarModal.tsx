@@ -9,7 +9,7 @@ interface CalendarModalProps {
 const CalendarModal: React.FC<CalendarModalProps> = observer((props) => {
   const handleClick = (e: React.MouseEvent) => {
     if (e.target === e.currentTarget) {
-      props.store.modalOpen = false;
+      props.store.closeModal();
     }
   };
 

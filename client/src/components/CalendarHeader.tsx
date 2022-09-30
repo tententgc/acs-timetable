@@ -1,16 +1,22 @@
 import React from "react";
 import { monthList } from "../config/data";
+import { CalendarStoreImpl } from "../store/CalendarStore";
 
 interface CalendarHeaderProps {
   currYear: number;
   currMonth: number;
   handleChangeMonth: (n: number) => void;
+  store: CalendarStoreImpl;
 }
 
 const CalendarHeader: React.FC<CalendarHeaderProps> = (props) => {
+  const handleClick = (n: number) => {
+    props.handleChangeMonth(n);
+  };
+
   return (
     <div>
-      <div className="flex min-w-full border-b-[1px] items-center justify-around p-2">
+      <div className="flex min-w-full items-center justify-around px-5 py-2 rounded-3xl bg-black">
         <div>
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -18,8 +24,8 @@ const CalendarHeader: React.FC<CalendarHeaderProps> = (props) => {
             viewBox="0 0 24 24"
             strokeWidth={1.5}
             stroke="currentColor"
-            className="w-16 h-16 cursor-pointer rounded-full  bg-slate-500 hover:bg-[#333333] hover:text-white duration-200 ease-linear"
-            onClick={() => props.handleChangeMonth(-1)}
+            className="w-10 h-10 cursor-pointer rounded-full  bg-white hover:bg-[#333333] hover:text-white duration-200 ease-linear"
+            onClick={() => handleClick(-1)}
           >
             <path
               strokeLinecap="round"
@@ -28,8 +34,8 @@ const CalendarHeader: React.FC<CalendarHeaderProps> = (props) => {
             />
           </svg>
         </div>
-        <div className="flex-grow text-center">
-          <p className="text-6xl capitalize text-white">
+        <div className="text-center">
+          <p className="text-5xl capitalize text-white w-[30rem]">
             {monthList[props.currMonth]} {props.currYear}
           </p>
         </div>
@@ -40,8 +46,8 @@ const CalendarHeader: React.FC<CalendarHeaderProps> = (props) => {
             viewBox="0 0 24 24"
             strokeWidth={1.5}
             stroke="currentColor"
-            className="w-16 h-16 cursor-pointer rounded-full bg-slate-500 hover:bg-[#333333] hover:text-white duration-200 ease-linear"
-            onClick={() => props.handleChangeMonth(1)}
+            className="w-10 h-10 cursor-pointer rounded-full bg-white hover:bg-[#333333] hover:text-white duration-200 ease-linear"
+            onClick={() => handleClick(1)}
           >
             <path
               strokeLinecap="round"

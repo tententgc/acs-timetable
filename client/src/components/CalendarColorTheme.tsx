@@ -12,7 +12,7 @@ interface ColorItems {
 }
 
 const item: Array<ColorItems> = [
-  { color: "bg-[#94FFAC]", title: "Study break" },
+  { color: "bg-[#2cbc63]", title: "Study break" },
   { color: "bg-[#FF9494]", title: "Test" },
   { color: "bg-[#9896FF]", title: "Anounce" },
   { color: "bg-[#575454]", title: "Today" },
@@ -32,7 +32,11 @@ const CalendarColorTheme: React.FC<CalendarColorThemeProps> = observer(
             // wait fetch data from backend color table
             return (
               <span
-                className="flex gap-3 items-center cursor-pointer hover:bg-slate-400 px-[5px] py-[2px] rounded-xl duration-300 ease-linear"
+                className={`flex gap-3 items-center cursor-pointer hover:bg-slate-400 px-[5px] py-[2px] rounded-xl duration-300 ease-linear ${
+                  props.store.colorFilter.includes(item.color)
+                    ? "bg-slate-400"
+                    : ""
+                }`}
                 key={index}
                 onClick={() => handleClick(item.color, item.title)}
               >
