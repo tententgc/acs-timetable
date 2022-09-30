@@ -1,8 +1,15 @@
+import { observer } from "mobx-react";
 import React, { useState } from "react";
+import { CalendarStoreImpl } from "../store/CalendarStore";
 import CalendarBody from "./CalendarBody";
 import CalendarHeader from "./CalendarHeader";
+import CalendarModal from "./CalendarModal";
 
-const Calendar: React.FC = () => {
+interface CalendarProps {
+  store: CalendarStoreImpl;
+}
+
+const Calendar: React.FC<CalendarProps> = observer((props) => {
   const [currYear, setCurrYear] = useState<number>(new Date().getFullYear());
   const [currMonth, setCurrMonth] = useState<number>(new Date().getMonth());
 
@@ -30,10 +37,15 @@ const Calendar: React.FC = () => {
           currMonth={currMonth}
           handleChangeMonth={handleChangeMonth}
         />
-        <CalendarBody currYear={currYear} currMonth={currMonth} />
+        <CalendarBody
+          currYear={currYear}
+          currMonth={currMonth}
+          store={props.store}
+        />
       </div>
+      {props.store.modalOpen ? <CalendarModal store={props.store} /> : ""}
     </div>
   );
-};
+});
 
 export default Calendar;

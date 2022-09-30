@@ -1,23 +1,15 @@
 import React from "react";
-import Navbar from "./components/Navbar";
-import "./App.css";
-import Calendar from "./components/Calendar";
-import CalendarModal from "./components/CalendarModal";
+import Home from "./pages/Home";
+import { Route, Routes } from "react-router-dom";
+import NotFound from "./pages/NotFound";
 
-function App() {
+const App: React.FC = () => {
   return (
-    <div className="min-h-screen">
-      <div>
-        <div className="starsec"></div>
-        <div className="starthird"></div>
-        <div className="starfourth"></div>
-        <div className="starfifth"></div>
-      </div>
-      <Navbar />
-      <Calendar />
-      {/* <CalendarModal /> */}
-    </div>
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="*" element={<NotFound />} />
+    </Routes>
   );
-}
+};
 
 export default App;

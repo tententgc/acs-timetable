@@ -28,7 +28,7 @@ module.exports = {
       },
       animation: {
         popup: "popup .25s ease 1",
-        boxOpen: "boxOpen 1s ease 1",
+        boxOpen: "boxOpen .25s ease 1",
       },
     },
   },
