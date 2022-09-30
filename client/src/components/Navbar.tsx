@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import logo from "../assets/logo.png";
 import Modal from "./Modal";
-import MainCalendar from "./Calendar";
 function Navbar() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
@@ -10,7 +9,7 @@ function Navbar() {
   };
 
   return (
-    <div>
+    <div className="">
       <nav className="bg-inherit border-gray-500">
         <div className="px-2 sm:px-4 py-2.5 rounded ">
           <div className="container flex flex-wrap justify-between items-center mx-auto h-14">
@@ -23,19 +22,19 @@ function Navbar() {
 
             <div className="hidden justify-between items-center w-full md:flex md:w-auto md:order-1">
               <div className="flex flex-col p-4 mt-4 rounded-lg border md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 ">
-                <a
-                  className="text-slate-600 hover:font-bold hover:text-slate-900 hover:underline px-3 py-2 rounded-md text-base font-medium"
+                <p
+                  className="text-white hover:bg-slate-200 duration-500 ease-linear hover:text-black hover:underline px-3 py-2 rounded-md text-base font-medium cursor-pointer"
                   onClick={() => setIsOpen(!isOpen)}
                 >
                   Sign in
-                </a>
+                </p>
               </div>
             </div>
           </div>
         </div>
       </nav>
-      <MainCalendar />
-      <Modal handleIsOpen={handleIsOpen} isOpen={isOpen}/>
+      {/* <MainCalendar /> */}
+      <Modal handleIsOpen={handleIsOpen} isOpen={isOpen} />
     </div>
   );
 }

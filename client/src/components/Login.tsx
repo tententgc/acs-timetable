@@ -1,37 +1,51 @@
 import React, { useState } from "react";
 import { FiEye, FiEyeOff } from "react-icons/fi";
+import { checkCaseObj } from "../helper/checkCaseObj";
+import { validateEmail } from "../helper/validateEmail";
+import InputCustom from "./InputCustom";
+
+interface formDataType {
+  email: string;
+  password: string;
+}
+
+const formDefaultItem: formDataType = { email: "", password: "" };
 
 const Login: React.FC = () => {
+  const [formData, setFormData] = useState<formDataType>(formDefaultItem);
   const [isShowPass, setIsShowPass] = useState<Boolean>(false);
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-  const [emailError, setEmailError] = useState<boolean>(false);
-  const [passwordError, setPasswordError] = useState<boolean>(false);
+  const [errors, setErrors] = useState<formDataType>(formDefaultItem);
 
-  const emailHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setEmail(e.target.value);
-  };
-
-  const passwordHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPassword(e.target.value);
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value.trim(),
+    });
   };
 
   const handleSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault();
 
-    if (email.length === 0 || password.length === 0) {
-      setEmailError(true);
-      setPasswordError(true);
-      return;
-    }
+    if (!formData.email) {
+      setErrors({ ...errors, email: "email is required" });
+    } else if (!validateEmail(formData.email)) {
+      setErrors({ ...errors, email: "please check your email" });
+    } else if (!formData.password) {
+      setErrors({ ...errors, password: "password is required" });
+    } else if (formData.password.length < 5 || formData.password.length > 20) {
+      setErrors({ ...errors, password: "password is must be 5-20 charecters" });
+    } else {
+      console.log("submit");
+      setErrors(formDefaultItem);
 
-    /*
-    
+      /*
+      
       TODO fetch api data    method POST
-
+      
       if bad status set email error
-
-    */
+      
+      */
+    }
   };
 
   return (
@@ -47,71 +61,62 @@ const Login: React.FC = () => {
       <div className="my-5">
         <p>Or log in with an email</p>
       </div>
-      <div className="flex flex-col gap-5 relative">
-        <form onSubmit={handleSubmit}>
-          <input
-            type="email"
-            className={`w-full border-[1px] outline-none rounded-[3px] px-[10px] py-[3px] focus:border-[#554994] ${
-              emailError ? "border-red-500" : ""
-            }`}
-            placeholder="Email"
-            pattern=".+@gmail.com"
-            value={email}
-            onChange={emailHandler}
-          />
-          {emailError ? (
-            <div className="absolute text-[8px] text-red-500">
-              Incorrect email or password
-            </div>
-          ) : (
-            ""
-          )}
-        </form>
-        <form className="relative" onSubmit={handleSubmit}>
-          <input
-            type={isShowPass ? "text" : "password"}
-            className={`w-full border-[1px] outline-none rounded-[3px] pl-[10px] pr-[25px] py-[3px] focus:border-[#554994] ${
-              passwordError ? "border-red-500" : ""
-            }`}
-            placeholder="Password"
-            required
-            value={password}
-            onChange={passwordHandler}
-          />
-          {isShowPass ? (
-            <FiEyeOff
-              onClick={() => setIsShowPass(!isShowPass)}
-              className="absolute right-1 top-2 cursor-pointer"
-              color="gray"
+      <form onSubmit={handleSubmit}>
+        <div className="flex flex-col gap-5 relative">
+          <div>
+            <InputCustom
+              errors={errors.email}
+              onChange={handleChange}
+              name="email"
+              value={formData.email}
+              placeholder="Email"
+              type="email"
             />
-          ) : (
-            <FiEye
-              onClick={() => setIsShowPass(!isShowPass)}
-              className="absolute right-1 top-2 cursor-pointer"
-              color="gray"
+          </div>
+          <div className="relative">
+            <InputCustom
+              type={isShowPass ? "text" : "password"}
+              errors={errors.password}
+              placeholder="Password"
+              value={formData.password}
+              onChange={handleChange}
+              name="password"
             />
-          )}
-        </form>
-      </div>
-      <div className="my-5 flex">
-        <span className=" border-b-2 cursor-pointer hover:border-slate-400">
-          <p>Forgot your password?</p>
-        </span>
-      </div>
-      <div>
-        <button
-          className={`px-10 py-2 w-full h-full font-bold ${
-            !(email.length === 0 || password.length === 0)
-              ? "bg-black text-white cursor-pointer"
-              : "bg-gray-100 text-gray-300 cursor-not-allowed"
-          }`}
-          type="submit"
-          disabled={email.length === 0 || password.length === 0}
-          onClick={handleSubmit}
-        >
-          Log in
-        </button>
-      </div>
+            {isShowPass ? (
+              <FiEyeOff
+                onClick={() => setIsShowPass(!isShowPass)}
+                className="absolute right-1 top-2 cursor-pointer"
+                color="gray"
+              />
+            ) : (
+              <FiEye
+                onClick={() => setIsShowPass(!isShowPass)}
+                className="absolute right-1 top-2 cursor-pointer"
+                color="gray"
+              />
+            )}
+          </div>
+        </div>
+        <div className="my-5 flex">
+          <span className=" border-b-2 cursor-pointer hover:border-slate-400">
+            <p>Forgot your password?</p>
+          </span>
+        </div>
+        <div>
+          <button
+            className={`px-10 py-2 w-full h-full font-bold ${
+              checkCaseObj({ ...formData })
+                ? "bg-gray-100 text-gray-300 cursor-not-allowed"
+                : "bg-black text-white cursor-pointer"
+            } duration-150 ease-linear`}
+            type="submit"
+            onClick={handleSubmit}
+            // disabled={checkCaseObj({ ...formData })}
+          >
+            Log in
+          </button>
+        </div>
+      </form>
     </div>
   );
 };

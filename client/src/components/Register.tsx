@@ -1,50 +1,67 @@
 import React, { useState } from "react";
 import { FiEye, FiEyeOff } from "react-icons/fi";
+import { checkCaseObj } from "../helper/checkCaseObj";
+import { validateEmail } from "../helper/validateEmail";
+import InputCustom from "./InputCustom";
+
+interface formDataType {
+  username: string;
+  email: string;
+  password: string;
+}
+
+interface ckeckBoxType {
+  check1: boolean;
+  check2: boolean;
+}
+
+const formDefaultItem: formDataType = { username: "", email: "", password: "" };
 
 const Register: React.FC = () => {
-  const [name, setName] = useState<string>("");
   const [isShowPass, setIsShowPass] = useState<boolean>(false);
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-  const [emailError, setEmailError] = useState<boolean>(false);
-  const [checkBox, setCheckBox] = useState<boolean>(false);
-  const [blankError, setBlankError] = useState<boolean>(false);
+  const [formData, setFormData] = useState<formDataType>(formDefaultItem);
+  const [errors, setErrors] = useState<formDataType>(formDefaultItem);
+
+  const [checkBox, setCheckBox] = useState<ckeckBoxType>({
+    check1: false,
+    check2: false,
+  });
 
   const checkBoxHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setCheckBox(!checkBox);
+    setCheckBox({
+      ...checkBox,
+      [e.target.name]: !checkBox[e.target.name as keyof ckeckBoxType],
+    });
   };
 
-  const nameHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setName(e.target.value);
-  };
-
-  const emailHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setEmail(e.target.value);
-  };
-
-  const passwordHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPassword(e.target.value);
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault();
 
-    if (
-      email.length === 0 ||
-      password.length === 0 ||
-      name.length === 0 ||
-      !checkBox
-    ) {
-      setBlankError(true);
-      return;
-    }
+    if (!formData.username) {
+      setErrors({ ...errors, username: "name is required" });
+    } else if (!formData.email) {
+      setErrors({ ...errors, email: "email is required" });
+    } else if (!validateEmail(formData.email)) {
+      setErrors({ ...errors, email: "please check your email" });
+    } else if (!formData.password) {
+      setErrors({ ...errors, password: "password is required" });
+    } else if (formData.password.length < 5 || formData.password.length > 20) {
+      setErrors({ ...errors, password: "password is must be 5-20 charecters" });
+    } else {
+      console.log("submit");
+      setErrors(formDefaultItem);
 
-    /*
-
+      /*
+      
       TODO fetch api data    method POST
       if bad status set Email Error
-
-    */
+      
+      */
+    }
   };
 
   return (
@@ -60,106 +77,110 @@ const Register: React.FC = () => {
       <div className="my-5">
         <p>Or log in with an email</p>
       </div>
-      <div className="flex flex-col gap-5">
-        <form onSubmit={handleSubmit}>
-          <input
-            type="text"
-            className={`w-full border-[1px] outline-none rounded-[3px] px-[10px] py-[3px] focus:border-[#554994] ${
-              blankError ? "border-red-500" : ""
-            }`}
-            placeholder="Name"
-            value={name}
-            onChange={nameHandler}
-            required
-          />
-        </form>
-        <form className="relative" onSubmit={handleSubmit}>
-          <input
-            type="email"
-            className={`w-full border-[1px] outline-none rounded-[3px] px-[10px] py-[3px] focus:border-[#554994]  ${
-              blankError || emailError ? "border-red-500" : ""
-            }`}
-            placeholder="Email"
-            value={email}
-            onChange={emailHandler}
-            required
-          />
-          {emailError ? (
-            <div className="absolute text-[8px] text-red-500">
-              email already use
+      <form onSubmit={handleSubmit}>
+        <div className="flex flex-col gap-5">
+          <div>
+            <InputCustom
+              type="text"
+              placeholder="Name"
+              value={formData.username}
+              onChange={handleChange}
+              name="username"
+              errors={errors.username}
+            />
+          </div>
+          <div className="relative">
+            <InputCustom
+              type="email"
+              placeholder="Email"
+              value={formData.email}
+              onChange={handleChange}
+              name="email"
+              errors={errors.email}
+            />
+          </div>
+          <div className="relative">
+            <div>
+              <InputCustom
+                type={isShowPass ? "text" : "password"}
+                placeholder="Password"
+                value={formData.password}
+                onChange={handleChange}
+                name="password"
+                maxLength={20}
+                minLength={5}
+                errors={errors.password}
+              />
+              {isShowPass ? (
+                <FiEyeOff
+                  onClick={() => setIsShowPass(!isShowPass)}
+                  className="absolute right-1 top-2 cursor-pointer"
+                  color="gray"
+                />
+              ) : (
+                <FiEye
+                  onClick={() => setIsShowPass(!isShowPass)}
+                  className="absolute right-1 top-2 cursor-pointer"
+                  color="gray"
+                />
+              )}
             </div>
-          ) : (
-            ""
-          )}
-        </form>
-        <form className="relative" onSubmit={handleSubmit}>
-          <input
-            type={isShowPass ? "text" : "password"}
-            className={`w-full border-[1px] outline-none rounded-[3px] pl-[10px] pr-[25px] py-[3px] focus:border-[#554994] ${
-              blankError ? "border-red-500" : ""
-            }`}
-            placeholder="Password"
-            value={password}
-            onChange={passwordHandler}
-            required
-          />
-          {isShowPass ? (
-            <FiEyeOff
-              onClick={() => setIsShowPass(!isShowPass)}
-              className="absolute right-1 top-2 cursor-pointer"
-              color="gray"
-            />
-          ) : (
-            <FiEye
-              onClick={() => setIsShowPass(!isShowPass)}
-              className="absolute right-1 top-2 cursor-pointer"
-              color="gray"
-            />
-          )}
-        </form>
-      </div>
-      <div className="flex flex-col my-3">
-        <div>
-          <input
-            type="checkbox"
-            name="title1"
-            className="accent-black"
-            checked={checkBox}
-            onChange={checkBoxHandler}
-          />
-          <label htmlFor="title1" className="font-light ml-2 text-sm">
-            Agree to{" "}
-            <span className="border-b-[1px] hover:border-black transition-all duration-250 cursor-pointer">
-              Terms and Conditions
-            </span>{" "}
-            &{" "}
-            <span className="border-b-[1px] hover:border-black transition-all duration-250 cursor-pointer">
-              Privacy Policy
-            </span>
-          </label>
+          </div>
         </div>
-        <div>
-          <input
-            type="checkbox"
-            name="title2"
-            className="accent-black"
-            checked={checkBox}
-            onChange={checkBoxHandler}
-          />
-          <label htmlFor="title2" className="font-light ml-2 text-sm">
-            Agree to get time-saving{" "}
-            <span className="border-b-[1px] hover:border-black transition-all duration-250 cursor-pointer">
-              design articles
-            </span>{" "}
-            and new release notifications
-          </label>
+        <div className="flex flex-col my-5">
+          <div className="flex items-start">
+            <input
+              type="checkbox"
+              name="check1"
+              className="accent-black"
+              checked={checkBox.check1}
+              onChange={checkBoxHandler}
+            />
+            <label htmlFor="title1" className="font-light ml-2 text-sm">
+              Agree to{" "}
+              <span className="border-b-[1px] hover:border-black transition-all duration-250 cursor-pointer">
+                Terms and Conditions
+              </span>{" "}
+              &{" "}
+              <span className="border-b-[1px] hover:border-black transition-all duration-250 cursor-pointer">
+                Privacy Policy
+              </span>
+            </label>
+          </div>
+          <div className="flex items-start mt-2">
+            <input
+              type="checkbox"
+              name="check2"
+              className="accent-black"
+              checked={checkBox.check2}
+              onChange={checkBoxHandler}
+            />
+            <label
+              htmlFor="title2"
+              className="font-light ml-2 text-sm mt-[-3.5px]"
+            >
+              Agree to get time-saving{" "}
+              <span className="border-b-[1px] hover:border-black transition-all duration-250 cursor-pointer">
+                design articles
+              </span>{" "}
+              and new release notifications
+            </label>
+          </div>
         </div>
-      </div>
-      <div className="my-5">
-        <button className="px-10 py-2 w-full h-full bg-gray-100 text-gray-300 font-bold">
-          Register
-        </button>
-      </div>
+        <div className="my-5">
+          <button
+            className={`px-10 py-2 w-full h-full font-bold ${
+              checkCaseObj({ ...formData, ...checkBox })
+                ? "cursor-not-allowed  bg-gray-100 text-gray-300"
+                : "bg-black text-white"
+            } duration-150 ease-linear`}
+            onClick={handleSubmit}
+            // disabled={checkCaseObj({ ...formData, ...checkBox })}
+          >
+            Register
+          </button>
+        </div>
+      </form>
     </div>
   );
 };
