@@ -9,6 +9,7 @@ import {
 import { CalendarStoreImpl } from "../store/CalendarStore";
 import CalendarBox from "./CalendarBox";
 import CalendarColorTheme from "./CalendarColorTheme";
+import WaitingData from "./WaitingData";
 
 interface CalendarBodyProps {
   currYear: number;
@@ -19,6 +20,7 @@ interface CalendarBodyProps {
 const CalendarBody: React.FC<CalendarBodyProps> = observer((props) => {
   return (
     <div className="border-2 rounded-3xl h-[90vh] m-14 bg-white overflow-scroll relative backdrop-blur-sm bg-opacity-40">
+      {props.store.workAll.length === 0 ? <WaitingData /> : ""}
       <div>
         <CalendarColorTheme store={props.store} />
       </div>

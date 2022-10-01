@@ -1,4 +1,5 @@
 import { observable, makeObservable, action, configure } from "mobx";
+import { mockData } from "../config/data";
 
 interface WorkItems {
   color: string;
@@ -10,48 +11,43 @@ configure({
   enforceActions: "never",
 });
 export class CalendarStoreImpl {
-  public modalTitle: string = "";
   public modalOpen = false;
+  public modalData: Array<WorkItems> = [];
   public colorFilter: Array<string> = [];
-  public workAll: Array<WorkItems> = [
-    {
-      color: "bg-[#2cbc63]",
-      title: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
-      dayInMonth: 4,
-    },
-    {
-      color: "bg-[#575454]",
-      title: "test 2",
-      dayInMonth: 5,
-    },
-  ];
+  public workAll: Array<WorkItems> = [];
+  public currMonth: number = 0;
+  public currYear: number = 0;
 
   public workDayInMonth: Array<Array<WorkItems>> = [[]];
   public workDayFilter: Array<Array<WorkItems>> = [[]];
 
-  public setWorkDay() {
-    for (let i = 0; i < 31; i++) {
-      this.workDayInMonth.push([]);
-    }
+  public async setWorkAll() {
+    setTimeout(() => {
+      this.workAll = mockData;
 
-    this.workAll.forEach((item) => {
-      this.workDayInMonth[item.dayInMonth].push(item);
-    });
+      for (let i = 0; i < 31; i++) {
+        this.workDayInMonth.push([]);
+      }
 
-    this.workDayFilter = this.workDayInMonth;
+      this.workAll.forEach((item) => {
+        this.workDayInMonth[item.dayInMonth].push(item);
+      });
+
+      this.workDayFilter = this.workDayInMonth;
+    }, 1000);
   }
 
   constructor() {
     makeObservable(this, {
-      modalTitle: observable,
+      modalData: observable,
       modalOpen: observable,
       workAll: observable,
       colorFilter: observable,
       workDayFilter: observable,
+      currMonth: observable,
+      currYear: observable,
       changeColorFilter: action,
     });
-
-    this.setWorkDay();
   }
 
   public changeColorFilter(value: string, n: string) {
@@ -79,6 +75,10 @@ export class CalendarStoreImpl {
 
   public closeModal() {
     this.modalOpen = false;
+  }
+
+  public checkWorkDay(n: number) {
+    return this.workDayInMonth[n];
   }
 }
 
