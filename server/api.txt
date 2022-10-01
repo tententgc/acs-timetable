@@ -1,0 +1,10 @@
+API LIST
+
+API: /api/auth/signin
+Method: POST 
+Todo: เข้าสู่ระบบ
+
+
+API: /api/auth/signup
+Method: POST
+Todo: สมัครสมาชิค
