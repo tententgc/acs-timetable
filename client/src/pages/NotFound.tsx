@@ -14,7 +14,7 @@ const NotFound: React.FC = () => {
       <div className="relative flex flex-col gap-10">
         <div className="flex items-end gap-5">
           <img src={notFoundsvg} alt="" className="w-[20vw]" />
-          <p className="text-6xl text-white animate-bounce">Page Not Found</p>
+          <p className="text-6xl text-white animate-bounce">Thanyapisit</p>
         </div>
         <div className="flex justify-center">
           <button className="bg-white px-5 py-2 rounded-lg border-2 hover:bg-slate-500 hover:text-white duration-500 ease-linear">
