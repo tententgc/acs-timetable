@@ -1,5 +1,5 @@
 import { observer } from "mobx-react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { CalendarStoreImpl } from "../store/CalendarStore";
 import CalendarBody from "./CalendarBody";
 import CalendarHeader from "./CalendarHeader";
@@ -12,6 +12,15 @@ interface CalendarProps {
 const Calendar: React.FC<CalendarProps> = observer((props) => {
   const [currYear, setCurrYear] = useState<number>(new Date().getFullYear());
   const [currMonth, setCurrMonth] = useState<number>(new Date().getMonth());
+
+  useEffect(() => {
+    props.store.setWorkAll();
+  }, [props.store]);
+
+  useEffect(() => {
+    props.store.currMonth = currMonth;
+    props.store.currYear = currYear;
+  }, [currMonth, currYear, props.store]);
 
   const handleChangeMonth = (n: number) => {
     if (currMonth === 11 && n === 1) {
@@ -36,6 +45,7 @@ const Calendar: React.FC<CalendarProps> = observer((props) => {
           currYear={currYear}
           currMonth={currMonth}
           handleChangeMonth={handleChangeMonth}
+          store={props.store}
         />
         <CalendarBody
           currYear={currYear}
