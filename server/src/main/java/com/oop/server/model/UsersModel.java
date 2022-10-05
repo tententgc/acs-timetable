@@ -1,6 +1,7 @@
 package com.oop.server.model;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,13 +18,16 @@ import lombok.Setter;
 public class UsersModel {
     
     @Id
-    private String user_email;
-
+    private String user_id;
+    
     @Column(nullable = false)
-    private String user_name;
-
+    private String username;
+    
     @Column(nullable = false)
-    private String user_password;
+    private String password;
+    
+    @Column(nullable = false)
+    private String email;
 
     @Column
     private LocalDateTime create_at;
@@ -32,6 +36,7 @@ public class UsersModel {
     private LocalDateTime update_at;
 
     public UsersModel() {
+        this.user_id = UUID.randomUUID().toString();
         this.create_at = LocalDateTime.now();
         this.update_at = LocalDateTime.now();
     }
