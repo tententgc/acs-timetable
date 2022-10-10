@@ -53,7 +53,7 @@ const Calendar: React.FC<CalendarProps> = observer((props) => {
           store={props.store}
         />
       </div>
-      {props.store.modalOpen ? <CalendarModal store={props.store} /> : ""}
+      {props.store.modalOpen && <CalendarModal store={props.store} />}
     </div>
   );
 });

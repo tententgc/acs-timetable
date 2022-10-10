@@ -1,13 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import logo from "../assets/logo.png";
 import Modal from "./Modal";
-function Navbar() {
-  const [isOpen, setIsOpen] = useState<boolean>(false);
+import { AuthenStore, AuthenStoreImpl } from "../store/AuthenStore";
+import { observer } from "mobx-react";
 
-  const handleIsOpen = () => {
-    setIsOpen(!isOpen);
-  };
-
+const Navbar: React.FC<{ store: AuthenStoreImpl }> = observer((props) => {
   return (
     <div className="">
       <nav className="bg-inherit border-gray-500">
@@ -24,7 +21,9 @@ function Navbar() {
               <div className="flex flex-col p-4 mt-4 rounded-lg border md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 ">
                 <p
                   className="text-white hover:bg-slate-200 duration-500 ease-linear hover:text-black hover:underline px-3 py-2 rounded-md text-base font-medium cursor-pointer"
-                  onClick={() => setIsOpen(!isOpen)}
+                  onClick={() =>
+                    (props.store.isOpenModal = !props.store.isOpenModal)
+                  }
                 >
                   Sign in
                 </p>
@@ -33,10 +32,9 @@ function Navbar() {
           </div>
         </div>
       </nav>
-      {/* <MainCalendar /> */}
-      <Modal handleIsOpen={handleIsOpen} isOpen={isOpen} />
+      <Modal isOpen={props.store.isOpenModal} store={AuthenStore} />
     </div>
   );
-}
+});
 
 export default Navbar;

@@ -21,7 +21,7 @@ const InputCustom: React.FC<InputCustomProps> = (props) => {
         }`}
         {...props}
       />
-      {props.errors ? <ErrorMessage message={props.errors} /> : ""}
+      {props.errors && <ErrorMessage message={props.errors} />}
     </div>
   );
 };

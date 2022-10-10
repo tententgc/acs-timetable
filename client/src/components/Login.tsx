@@ -3,18 +3,31 @@ import { FiEye, FiEyeOff } from "react-icons/fi";
 import { checkCaseObj } from "../helper/checkCaseObj";
 import { validateEmail } from "../helper/validateEmail";
 import InputCustom from "./InputCustom";
+import { BiLoader } from "react-icons/bi";
+import { FcCloseUpMode } from "react-icons/fc";
+import { SignIn } from "../api/authen";
+import { AuthenStoreImpl } from "../store/AuthenStore";
 
 interface formDataType {
   email: string;
   password: string;
 }
 
+interface awaitButtonType {
+  onLoad: boolean;
+  animate: any;
+}
+
 const formDefaultItem: formDataType = { email: "", password: "" };
 
-const Login: React.FC = () => {
+const Login: React.FC<{ store: AuthenStoreImpl }> = (props) => {
   const [formData, setFormData] = useState<formDataType>(formDefaultItem);
   const [isShowPass, setIsShowPass] = useState<Boolean>(false);
   const [errors, setErrors] = useState<formDataType>(formDefaultItem);
+  const [awaitButton, setAwaitButton] = useState<awaitButtonType>({
+    onLoad: false,
+    animate: <BiLoader className="animate-spinAround" />,
+  });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
@@ -23,7 +36,7 @@ const Login: React.FC = () => {
     });
   };
 
-  const handleSubmit = (e: React.SyntheticEvent) => {
+  const handleSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
 
     if (!formData.email) {
@@ -35,16 +48,24 @@ const Login: React.FC = () => {
     } else if (formData.password.length < 5 || formData.password.length > 20) {
       setErrors({ ...errors, password: "password is must be 5-20 charecters" });
     } else {
-      console.log("submit");
       setErrors(formDefaultItem);
 
-      /*
-      
-      TODO fetch api data    method POST
-      
-      if bad status set email error
-      
-      */
+      setAwaitButton({ ...awaitButton, onLoad: true });
+      const res = await SignIn(formData);
+
+      if (res !== 200) {
+        setAwaitButton({
+          animate: <FcCloseUpMode color="white" />,
+          onLoad: true,
+        });
+        setErrors({
+          ...errors,
+          password: "email or password doesn't match",
+        });
+      } else {
+        props.store.isOpenModal = false;
+        setAwaitButton({ ...awaitButton, onLoad: false });
+      }
     }
   };
 
@@ -104,7 +125,7 @@ const Login: React.FC = () => {
         </div>
         <div>
           <button
-            className={`px-10 py-2 w-full h-full font-bold ${
+            className={`px-10 py-2 w-full h-full flex font-bold ${
               checkCaseObj({ ...formData })
                 ? "bg-gray-100 text-gray-300 cursor-not-allowed"
                 : "bg-black text-white cursor-pointer"
@@ -113,7 +134,11 @@ const Login: React.FC = () => {
             onClick={handleSubmit}
             // disabled={checkCaseObj({ ...formData })}
           >
-            Log in
+            {awaitButton.onLoad ? (
+              <div className="m-auto h-5">{awaitButton.animate}</div>
+            ) : (
+              <div className="m-auto h-5">Login</div>
+            )}
           </button>
         </div>
       </form>
