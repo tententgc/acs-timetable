@@ -10,6 +10,7 @@ import { CalendarStoreImpl } from "../store/CalendarStore";
 import CalendarBox from "./CalendarBox";
 import CalendarColorTheme from "./CalendarColorTheme";
 import WaitingData from "./WaitingData";
+import animationLottie from "../assets/loading-color.json";
 
 interface CalendarBodyProps {
   currYear: number;
@@ -19,8 +20,12 @@ interface CalendarBodyProps {
 
 const CalendarBody: React.FC<CalendarBodyProps> = observer((props) => {
   return (
-    <div className="border-2 rounded-3xl h-[90vh] m-14 bg-white overflow-scroll relative backdrop-blur-sm bg-opacity-40">
-      {props.store.workAll.length === 0 ? <WaitingData /> : ""}
+    <div className="border-2 rounded-3xl h-[90vh] m-14 bg-[#464675] overflow-scroll relative backdrop-blur-sm bg-opacity-40">
+      {props.store.workAll.length === 0 ? (
+        <WaitingData animate={animationLottie} />
+      ) : (
+        ""
+      )}
       <div>
         <CalendarColorTheme store={props.store} />
       </div>
@@ -39,7 +44,7 @@ const CalendarBody: React.FC<CalendarBodyProps> = observer((props) => {
       <div className="grid grid-cols-7 gap-y-5 mx-[15rem] mt-6 gap-6">
         {Array(strDay2Num(getFirstDayOfMonth(props.currYear, props.currMonth)))
           .fill(0)
-          .map((item, index) => {
+          .map((_, index) => {
             return (
               <div key={Math.random()}>
                 <CalendarBox
@@ -53,7 +58,7 @@ const CalendarBody: React.FC<CalendarBodyProps> = observer((props) => {
           })}
         {Array(getDaysInMonth(props.currYear, props.currMonth + 1))
           .fill(0)
-          .map((item, index) => {
+          .map((_, index) => {
             return (
               <div key={Math.random()}>
                 <CalendarBox

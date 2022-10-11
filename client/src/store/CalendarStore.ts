@@ -1,17 +1,18 @@
-import { observable, makeObservable, action, configure } from "mobx";
+import { makeAutoObservable, configure } from "mobx";
 import { mockData } from "../config/data";
 
 interface WorkItems {
   color: string;
-  title: string;
+  header: string;
   dayInMonth: number;
+  description?: string;
 }
 
 configure({
   enforceActions: "never",
 });
 export class CalendarStoreImpl {
-  public modalOpen = false;
+  public modalOpen: boolean = false;
   public modalData: Array<WorkItems> = [];
   public colorFilter: Array<string> = [];
   public workAll: Array<WorkItems> = [];
@@ -25,29 +26,24 @@ export class CalendarStoreImpl {
     setTimeout(() => {
       this.workAll = mockData;
 
-      for (let i = 0; i < 31; i++) {
-        this.workDayInMonth.push([]);
-      }
-
       this.workAll.forEach((item) => {
         this.workDayInMonth[item.dayInMonth].push(item);
       });
 
       this.workDayFilter = this.workDayInMonth;
-    }, 1000);
+    }, 200);
+  }
+
+  Init() {
+    for (let i = 0; i < 31; i++) {
+      this.workDayInMonth.push([]);
+      this.workDayFilter.push([]);
+    }
   }
 
   constructor() {
-    makeObservable(this, {
-      modalData: observable,
-      modalOpen: observable,
-      workAll: observable,
-      colorFilter: observable,
-      workDayFilter: observable,
-      currMonth: observable,
-      currYear: observable,
-      changeColorFilter: action,
-    });
+    makeAutoObservable(this);
+    this.Init();
   }
 
   public changeColorFilter(value: string, n: string) {
@@ -73,12 +69,8 @@ export class CalendarStoreImpl {
     });
   }
 
-  public closeModal() {
-    this.modalOpen = false;
-  }
-
   public checkWorkDay(n: number) {
-    return this.workDayInMonth[n];
+    return this.workDayFilter[n];
   }
 }
 

@@ -1,8 +1,12 @@
 import React, { useState } from "react";
 import { FiEye, FiEyeOff } from "react-icons/fi";
+import { SignUp } from "../api/authen";
 import { checkCaseObj } from "../helper/checkCaseObj";
 import { validateEmail } from "../helper/validateEmail";
 import InputCustom from "./InputCustom";
+import { BsFillCloudUploadFill } from "react-icons/bs";
+import { AiOutlineClose, AiOutlineCheck } from "react-icons/ai";
+import { AuthenStoreImpl } from "../store/AuthenStore";
 
 interface formDataType {
   username: string;
@@ -15,12 +19,21 @@ interface ckeckBoxType {
   check2: boolean;
 }
 
+interface awaitButtonType {
+  onLoad: boolean;
+  animate: any;
+}
+
 const formDefaultItem: formDataType = { username: "", email: "", password: "" };
 
-const Register: React.FC = () => {
+const Register: React.FC<{ store: AuthenStoreImpl }> = (props) => {
   const [isShowPass, setIsShowPass] = useState<boolean>(false);
   const [formData, setFormData] = useState<formDataType>(formDefaultItem);
   const [errors, setErrors] = useState<formDataType>(formDefaultItem);
+  const [awaitButton, setAwaitButton] = useState<awaitButtonType>({
+    onLoad: false,
+    animate: <BsFillCloudUploadFill />,
+  });
 
   const [checkBox, setCheckBox] = useState<ckeckBoxType>({
     check1: false,
@@ -38,7 +51,7 @@ const Register: React.FC = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e: React.SyntheticEvent) => {
+  const handleSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
 
     if (!formData.username) {
@@ -52,15 +65,27 @@ const Register: React.FC = () => {
     } else if (formData.password.length < 5 || formData.password.length > 20) {
       setErrors({ ...errors, password: "password is must be 5-20 charecters" });
     } else {
-      console.log("submit");
       setErrors(formDefaultItem);
 
-      /*
-      
-      TODO fetch api data    method POST
-      if bad status set Email Error
-      
-      */
+      setAwaitButton({ ...awaitButton, onLoad: true });
+      const res = await SignUp(formData);
+
+      if (res === 201) {
+        setAwaitButton({
+          ...awaitButton,
+          animate: <AiOutlineCheck color="green" />,
+        });
+        setAwaitButton({ ...awaitButton, onLoad: false });
+      } else {
+        setAwaitButton({
+          ...awaitButton,
+          animate: <AiOutlineClose color="red" />,
+        });
+        setErrors({
+          ...errors,
+          email: "email already in use",
+        });
+      }
     }
   };
 
@@ -169,7 +194,7 @@ const Register: React.FC = () => {
         </div>
         <div className="my-5">
           <button
-            className={`px-10 py-2 w-full h-full font-bold ${
+            className={`px-10 py-2 w-full h-full flex font-bold ${
               checkCaseObj({ ...formData, ...checkBox })
                 ? "cursor-not-allowed  bg-gray-100 text-gray-300"
                 : "bg-black text-white"
@@ -177,7 +202,11 @@ const Register: React.FC = () => {
             onClick={handleSubmit}
             // disabled={checkCaseObj({ ...formData, ...checkBox })}
           >
-            Register
+            {awaitButton.onLoad ? (
+              <div className="m-auto h-5">{awaitButton.animate}</div>
+            ) : (
+              <div className="m-auto h-5">Register</div>
+            )}
           </button>
         </div>
       </form>
