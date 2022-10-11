@@ -16,13 +16,15 @@ import com.oop.server.model.UserModel;
 import com.oop.server.repository.UserRepository;
 import com.oop.server.secret.SecretKeyENV;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 
+@CrossOrigin
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping(value = "/api/auth", consumes = "application/json")
 public class AuthController {
 
     @Autowired
@@ -50,39 +52,39 @@ public class AuthController {
             return new ResponseEntity<Map<String, Object>>(res, null, 200);
         } catch (Exception e) {
             res.put("status", 400);
-            res.put("message", "invalid token");
+            res.put("message", "invalid token or expired token");
             res.put("token", bearerToken);
-            return new ResponseEntity<Map<String, Object>>(res, null, 400);
+            return ResponseEntity.ok(res);
         }
     }
 
-    @PostMapping("/signup")
-    public ResponseEntity<Map<String, Object>> SignUp(@RequestHeader(value = "Authorization", defaultValue = "") String bearerToken, @RequestBody UserModel req) {
-        if(bearerToken.length() > 7){
+    @PostMapping(value = "/signup")
+    public ResponseEntity<Map<String, Object>> SignUp(
+            @RequestHeader(value = "Authorization", defaultValue = "") String bearerToken, @RequestBody UserModel req) {
+        if (bearerToken.length() > 7) {
             bearerToken = bearerToken.substring(7);
         }
         UserModel check = userRepository.findByEmail(req.getEmail());
         Map<String, Object> res = new HashMap<String, Object>();
-        req.setPassword(bCryptPasswordEncoder().encode(req.getPassword())); //bcrypt password
+        req.setPassword(bCryptPasswordEncoder().encode(req.getPassword())); // bcrypt password
 
-        if(bearerToken.equals(SecretKeyENV.adminKey)) {
+        if (bearerToken.equals(SecretKeyENV.adminKey)) {
             req.setRole("ADMIN");
-        }else {
+        } else {
             req.setRole("USER");
         }
 
-        if(check != null) {
-            res.put("status", 404);
-            res.put("error", "Email in use");
-            res.put("data", req);
-            return new ResponseEntity<Map<String, Object>>(res, null, 500);
+        if (check != null) {
+            res.put("status", 409);
+            res.put("error", "email already in use");
+            return ResponseEntity.ok(res);
         }
-        
+
         UserModel response = userRepository.save(req);
 
-        res.put("status", 200);
+        res.put("status", 201);
         res.put("data", response);
-        
+
         return ResponseEntity.ok(res);
     }
 
@@ -94,7 +96,7 @@ public class AuthController {
         if (res == null) {
             response.put("status", 404);
             response.put("error", "Cannot find Email");
-            return new ResponseEntity<Map<String, Object>>(response, null, 404);
+            return ResponseEntity.ok(response);
         }
 
         Boolean decodePassword = bCryptPasswordEncoder().matches(req.getPassword(), res.getPassword());
@@ -102,20 +104,20 @@ public class AuthController {
         if (!decodePassword) {
             response.put("status", 404);
             response.put("error", "password doesn't match");
-            return new ResponseEntity<Map<String, Object>>(response, null, 404);
+            return ResponseEntity.ok(response);
         }
-        
+
         String token;
 
-        if(res.getRole().equals("ADMIN")){
-            token = new TokenHandler().generateToken(res.getEmail(), "ADMIN");
-        }else {
-            token = new TokenHandler().generateToken(res.getEmail(), "USER");
+        if (res.getRole().equals("ADMIN")) {
+            token = new TokenHandler().generateToken(res.getEmail(), "ADMIN", res.getUsername());
+        } else {
+            token = new TokenHandler().generateToken(res.getEmail(), "USER",res.getUsername());
         }
-
 
         response.put("status", 200);
         response.put("token", token);
+        response.put("role", res.getRole());
         response.put("data", res);
 
         return ResponseEntity.ok(response);

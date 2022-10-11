@@ -58,20 +58,20 @@ public class EventController {
             if (userModel == null) {
                 res.put("status", 500);
                 res.put("error", "cannot find users");
-                return new ResponseEntity<Map<String, Object>>(res, null, 500);
+                return ResponseEntity.ok(res);
             } else {
                 req.setUser(userModel);
 
-                if (role.equals("USER")) {
+                if (role.equals("USER") && userModel.getRole().equals("USER")) {
                     ColorModel colorModel = colorRepository.findById("CDF0EA").orElse(null);
                     if (colorModel != null) {
                         req.setColor(colorModel);
                     } else {
                         res.put("status", 500);
                         res.put("error", "cannot find color hex code");
-                        return new ResponseEntity<Map<String, Object>>(res, null, 500);
+                        return ResponseEntity.ok(res);
                     }
-                } else if (role.equals("ADMIN")) {
+                } else if (role.equals("ADMIN") && userModel.getRole().equals("ADMIN")) {
                     ColorModel colorModel = colorRepository.findById(req.getColor().getHex_code()).orElse(null);
                     req.setColor(colorModel);
                 }
@@ -85,7 +85,7 @@ public class EventController {
         } catch (Exception e) {
             res.put("status", 500);
             res.put("error", "Server error");
-            return new ResponseEntity<Map<String, Object>>(res, null, 500);
+            return ResponseEntity.ok(res);
         }
     }
 
@@ -101,7 +101,7 @@ public class EventController {
             if (eventDB == null) {
                 res.put("status", 500);
                 res.put("error", "cannot find id");
-                return new ResponseEntity<Map<String, Object>>(res, null, 200);
+                return ResponseEntity.ok(res);
             }
 
             eventDB.setHeader(req.getHeader());
@@ -111,35 +111,44 @@ public class EventController {
             res.put("status", 200);
             res.put("data", eventRepository.save(eventDB));
 
-            return new ResponseEntity<Map<String, Object>>(res, null, 200);
+            return ResponseEntity.ok(res);
 
         } catch (Exception e) {
             res.put("status", 500);
             res.put("error", "invalid token");
-            return new ResponseEntity<Map<String, Object>>(res, null, 500);
+            return ResponseEntity.ok(res);
         }
     }
 
     @GetMapping(value = "/get/{date}")
-    public ResponseEntity<Map<String, Object>> getEventById(@RequestHeader("Authorization") String bearerToken,
+    public ResponseEntity<Map<String, Object>> getEventById(@RequestHeader(value = "Authorization", defaultValue = "") String bearerToken,
             @PathVariable String date) {
         Map<String, Object> res = new HashMap<String, Object>();
-        bearerToken = bearerToken.substring(7);
-        try {
-            DecodedJWT verify = new TokenHandler().verifyToken(bearerToken);
-            String email = verify.getSubject();
-            List<EventModel> eventModel = eventRepository.findByDate(date, email);
-            if (eventModel == null) {
-                res.put("status", 404);
-                return new ResponseEntity<Map<String, Object>>(res, null, 404);
+        if(bearerToken.length() > 10) { // if user not login
+            bearerToken = bearerToken.substring(7);
+            try {
+                DecodedJWT verify = new TokenHandler().verifyToken(bearerToken);
+                String email = verify.getSubject();
+                List<EventModel> eventModel = eventRepository.findByDate(date, email);
+                if (eventModel == null) {
+                    res.put("status", 404);
+                    return ResponseEntity.ok(res);
+                }
+                res.put("status", 200);
+                res.put("data", eventModel);
+                return ResponseEntity.ok(res);
+            } catch (Exception e) { // check error token
+                res.put("status", 500);
+                res.put("error", "invalid token");
+                List<EventModel> eventModel = eventRepository.findAdminEvent();
+                res.put("data", eventModel);
+                return ResponseEntity.ok(res);
             }
+        } else {
+            List<EventModel> eventModel = eventRepository.findAdminEvent();
             res.put("status", 200);
             res.put("data", eventModel);
-            return new ResponseEntity<Map<String, Object>>(res, null, 200);
-        } catch (Exception e) {
-            res.put("status", 500);
-            res.put("error", "invalid token");
-            return new ResponseEntity<Map<String, Object>>(res, null, 500);
+            return ResponseEntity.ok(res);
         }
     }
 
@@ -152,11 +161,12 @@ public class EventController {
         if(eventDB.getUser().getRole().equals("USER") && eventDB != null) {
             eventRepository.deleteById(id);
             res.put("status", 200);
-            return new ResponseEntity<Map<String, Object>>(res, null, 200);
+            return ResponseEntity.ok(res);
         }
+
         res.put("status", 404);
         res.put("error", "cannot find event");
 
-        return null;
+        return ResponseEntity.ok(res);
     }
 }

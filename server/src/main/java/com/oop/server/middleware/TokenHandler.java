@@ -10,7 +10,7 @@ import com.oop.server.secret.SecretKeyENV;
 
 public class TokenHandler {
 
-    public String generateToken(String email, String role) {
+    public String generateToken(String email, String role, String audience) {
         Algorithm algorithm = Algorithm.HMAC256(SecretKeyENV.secretKey);
 
         String token = JWT.create()
@@ -18,6 +18,7 @@ public class TokenHandler {
             .withExpiresAt(new Date(System.currentTimeMillis() + 60 * 60 * 1000 )) // 10 นาที format + minute * secount/minius * millisecound
             .withIssuedAt(new Date(System.currentTimeMillis()))
             .withIssuer(role)
+            .withAudience(audience)
             .sign(algorithm);
 
         return token;

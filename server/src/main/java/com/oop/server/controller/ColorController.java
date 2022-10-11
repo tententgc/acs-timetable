@@ -6,7 +6,6 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -47,12 +46,12 @@ public class ColorController {
             } else {
                 res.put("status", 404);
                 res.put("error", "only admin can use this function");
-                return new ResponseEntity<Map<String, Object>>(res, null, 404);
+                return ResponseEntity.ok(res);
             }
         } catch (Exception e) {
             res.put("status", 404);
             res.put("error", "cannot verify token");
-            return new ResponseEntity<Map<String, Object>>(res, null, 404);
+            return ResponseEntity.ok(res);
         }
     }
 
@@ -63,7 +62,7 @@ public class ColorController {
         if(colorDB == null){
             res.put("status", 500);
             res.put("error", "error cannot find id");
-            return new ResponseEntity<Map<String, Object>>(res, null, 500);
+            return ResponseEntity.ok(res);
         }
 
         colorDB.setColor_meaning(req.getColor_meaning());
@@ -71,6 +70,6 @@ public class ColorController {
         res.put("status", 200);
         res.put("data", colorRepository.save(colorDB));
 
-        return new ResponseEntity<Map<String, Object>>(res, null, 200);
+        return ResponseEntity.ok(res);
     }
 }
