@@ -26,7 +26,7 @@ public class ColorModel {
     @Id
     private String hex_code;
 
-    @Column
+    @Column(nullable = false)
     private String color_meaning;
 
     @Column(updatable = false)

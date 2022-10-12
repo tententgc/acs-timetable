@@ -21,7 +21,7 @@ interface CalendarBodyProps {
 const CalendarBody: React.FC<CalendarBodyProps> = observer((props) => {
   return (
     <div className="border-2 rounded-3xl h-[90vh] m-14 bg-[#464675] overflow-scroll relative backdrop-blur-sm bg-opacity-40">
-      {props.store.workAll.length === 0 ? (
+      {props.store.workAll === null ? (
         <WaitingData animate={animationLottie} />
       ) : (
         ""

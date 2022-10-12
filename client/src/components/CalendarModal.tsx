@@ -21,13 +21,7 @@ const CalendarModal: React.FC<CalendarModalProps> = observer((props) => {
     >
       <div className="flex flex-col gap-2">
         {props.store.modalData.map((item) => {
-          return (
-            <CalendarAccordian
-              color={item.color}
-              header={item.header}
-              description={item.description}
-            />
-          );
+          return <CalendarAccordian {...item} key={Math.random()} />;
         })}
       </div>
     </div>

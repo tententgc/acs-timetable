@@ -1,40 +1,24 @@
 import { makeAutoObservable, configure } from "mobx";
-import { mockData } from "../config/data";
-
-interface WorkItems {
-  color: string;
-  header: string;
-  dayInMonth: number;
-  description?: string;
-}
+import { EventType, getEventData } from "../api/eventRouter";
 
 configure({
   enforceActions: "never",
 });
 export class CalendarStoreImpl {
   public modalOpen: boolean = false;
-  public modalData: Array<WorkItems> = [];
+  public modalData: Array<EventType> = [];
   public colorFilter: Array<string> = [];
-  public workAll: Array<WorkItems> = [];
-  public currMonth: number = 0;
-  public currYear: number = 0;
+  public workAll: Array<EventType> | null = null;
+  public currMonth: number = new Date().getMonth();
+  public currYear: number = new Date().getFullYear();
 
-  public workDayInMonth: Array<Array<WorkItems>> = [[]];
-  public workDayFilter: Array<Array<WorkItems>> = [[]];
-
-  public async setWorkAll() {
-    setTimeout(() => {
-      this.workAll = mockData;
-
-      this.workAll.forEach((item) => {
-        this.workDayInMonth[item.dayInMonth].push(item);
-      });
-
-      this.workDayFilter = this.workDayInMonth;
-    }, 200);
-  }
+  public workDayInMonth: Array<Array<EventType>> = [[]];
+  public workDayFilter: Array<Array<EventType>> = [[]];
 
   Init() {
+    this.workDayInMonth = [[]];
+    this.workDayFilter = [[]];
+
     for (let i = 0; i < 31; i++) {
       this.workDayInMonth.push([]);
       this.workDayFilter.push([]);
@@ -44,6 +28,19 @@ export class CalendarStoreImpl {
   constructor() {
     makeAutoObservable(this);
     this.Init();
+  }
+
+  public async setWorkAll(data: string) {
+    this.Init();
+    const res = await getEventData(data);
+
+    this.workAll = res;
+
+    this.workAll.forEach((item) => {
+      this.workDayInMonth[new Date(item.event_date).getDate()].push(item);
+    });
+
+    this.workDayFilter = this.workDayInMonth;
   }
 
   public changeColorFilter(value: string, n: string) {
@@ -64,7 +61,9 @@ export class CalendarStoreImpl {
 
     this.workDayFilter = this.workDayInMonth.map((item) => {
       return item
-        ? item.filter((itemIn) => this.colorFilter.includes(itemIn.color))
+        ? item.filter((itemIn) =>
+            this.colorFilter.includes(itemIn.color.hex_code)
+          )
         : [];
     });
   }

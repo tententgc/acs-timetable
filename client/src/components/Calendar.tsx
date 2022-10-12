@@ -14,12 +14,11 @@ const Calendar: React.FC<CalendarProps> = observer((props) => {
   const [currMonth, setCurrMonth] = useState<number>(new Date().getMonth());
 
   useEffect(() => {
-    props.store.setWorkAll();
-  }, [props.store]);
-
-  useEffect(() => {
     props.store.currMonth = currMonth;
     props.store.currYear = currYear;
+    props.store.setWorkAll(
+      `${currYear}-${(currMonth + 1).toString().padStart(2, "0")}`
+    );
   }, [currMonth, currYear, props.store]);
 
   const handleChangeMonth = (n: number) => {

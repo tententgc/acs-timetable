@@ -41,7 +41,8 @@ const CalendarBox: React.FC<CalendarBoxProps> = observer((props) => {
                   <div key={Math.random()} className="flex gap-1 items-center">
                     <div className="pl-1">
                       <div
-                        className={`${item.color} h-3 w-3 rounded-full cursor-pointer hover:bg-opacity-50 duration-200 ease-linear overflow-hidden`}
+                        className="h-3 w-3 rounded-full cursor-pointer hover:bg-opacity-50 duration-200 ease-linear overflow-hidden"
+                        style={{ backgroundColor: `#${item.color.hex_code}` }}
                       ></div>
                     </div>
                     <p className="text-white text-[10px] truncate">

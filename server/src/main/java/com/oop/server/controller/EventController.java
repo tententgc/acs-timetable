@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,9 +25,9 @@ import com.oop.server.model.UserModel;
 import com.oop.server.repository.ColorRepository;
 import com.oop.server.repository.EventRepository;
 import com.oop.server.repository.UserRepository;
-
+@CrossOrigin
 @RestController
-@RequestMapping("/api/event")
+@RequestMapping(value = "/api/event", consumes = "application/json")
 public class EventController {
 
     @Autowired
@@ -41,6 +42,11 @@ public class EventController {
     @GetMapping("/get")
     public Iterable<EventModel> getAllEvent() {
         return eventRepository.findAll();
+    }
+
+    @PostMapping("/datasetevent")
+    public Iterable<EventModel> postAllEvent(@RequestBody List<EventModel> req){
+        return eventRepository.saveAll(req);
     }
 
     @PostMapping("/add")
@@ -63,7 +69,7 @@ public class EventController {
                 req.setUser(userModel);
 
                 if (role.equals("USER") && userModel.getRole().equals("USER")) {
-                    ColorModel colorModel = colorRepository.findById("CDF0EA").orElse(null);
+                    ColorModel colorModel = colorRepository.findByHex_code("CDF0EA");
                     if (colorModel != null) {
                         req.setColor(colorModel);
                     } else {
@@ -72,7 +78,7 @@ public class EventController {
                         return ResponseEntity.ok(res);
                     }
                 } else if (role.equals("ADMIN") && userModel.getRole().equals("ADMIN")) {
-                    ColorModel colorModel = colorRepository.findById(req.getColor().getHex_code()).orElse(null);
+                    ColorModel colorModel = colorRepository.findByHex_code(req.getColor().getHex_code());
                     req.setColor(colorModel);
                 }
             }
@@ -96,20 +102,28 @@ public class EventController {
         bearerToken = bearerToken.substring(7);
 
         try {
-            new TokenHandler().verifyToken(bearerToken);
+            DecodedJWT verify = new TokenHandler().verifyToken(bearerToken);
             EventModel eventDB = eventRepository.findById(id).orElse(null);
+            String role = verify.getIssuer();
             if (eventDB == null) {
                 res.put("status", 500);
                 res.put("error", "cannot find id");
                 return ResponseEntity.ok(res);
             }
 
+            if(eventDB.getUser().getRole().equals("ADMIN") && role.equals("USER")){
+                res.put("status", 500);
+                res.put("error", "cannot update admin post");
+                return ResponseEntity.ok(res);
+            }
+
             eventDB.setHeader(req.getHeader());
-            eventDB.setDate(req.getDate());
+            eventDB.setDate(req.getEvent_date());
             eventDB.setDescription(req.getDescription());
             eventDB.setTime_range(req.getTime_range());
             res.put("status", 200);
             res.put("data", eventRepository.save(eventDB));
+
 
             return ResponseEntity.ok(res);
 
@@ -128,45 +142,58 @@ public class EventController {
             bearerToken = bearerToken.substring(7);
             try {
                 DecodedJWT verify = new TokenHandler().verifyToken(bearerToken);
-                String email = verify.getSubject();
-                List<EventModel> eventModel = eventRepository.findByDate(date, email);
+                List<EventModel> eventModel = eventRepository.findByDate(date, verify.getAudience().get(0));
                 if (eventModel == null) {
                     res.put("status", 404);
+                    List<EventModel> adminEvent = eventRepository.findAdminEvent(date);
+                    res.put("data", adminEvent);
                     return ResponseEntity.ok(res);
                 }
+                
                 res.put("status", 200);
+                res.put("message", "user auth");
                 res.put("data", eventModel);
                 return ResponseEntity.ok(res);
             } catch (Exception e) { // check error token
+                List<EventModel> adminEvent = eventRepository.findAdminEvent(date);
                 res.put("status", 500);
+                res.put("data", adminEvent);
                 res.put("error", "invalid token");
-                List<EventModel> eventModel = eventRepository.findAdminEvent();
-                res.put("data", eventModel);
                 return ResponseEntity.ok(res);
             }
         } else {
-            List<EventModel> eventModel = eventRepository.findAdminEvent();
+            List<EventModel> adminEvent = eventRepository.findAdminEvent(date);
             res.put("status", 200);
-            res.put("data", eventModel);
+            res.put("data", adminEvent);
             return ResponseEntity.ok(res);
         }
     }
 
     @DeleteMapping(value = "/delete/{id}")
-    public ResponseEntity<Map<String, Object>> deleteEvent(@PathVariable String id) {
+    public ResponseEntity<Map<String, Object>> deleteEvent(@RequestHeader("Authorization") String bearerToken, @PathVariable String id) {
+        bearerToken = bearerToken.substring(7);
         Map<String, Object> res = new HashMap<String, Object>();
+        try {
+            DecodedJWT verify = new TokenHandler().verifyToken(bearerToken);
+            EventModel eventDB = eventRepository.findById(id).orElse(null);
+            String role = verify.getIssuer();
 
-        EventModel eventDB = eventRepository.findById(id).orElse(null);
 
-        if(eventDB.getUser().getRole().equals("USER") && eventDB != null) {
+            if(eventDB.getUser().getRole().equals("ADMIN") && role.equals("USER")){
+                res.put("status", 500);
+                res.put("error", "cannot delete admin post");
+                return ResponseEntity.ok(res);
+            }
+
             eventRepository.deleteById(id);
             res.put("status", 200);
             return ResponseEntity.ok(res);
+
+        } catch (Exception e) {
+            res.put("status", 500);
+            res.put("error", "server error");
+            
+            return ResponseEntity.ok(res);
         }
-
-        res.put("status", 404);
-        res.put("error", "cannot find event");
-
-        return ResponseEntity.ok(res);
     }
 }

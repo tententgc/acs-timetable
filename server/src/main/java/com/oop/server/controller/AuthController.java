@@ -35,25 +35,30 @@ public class AuthController {
         return new BCryptPasswordEncoder();
     }
 
-    @GetMapping("/get")
+    @GetMapping(value = "/get")
     public ResponseEntity<Iterable<UserModel>> Test() {
         return ResponseEntity.ok(userRepository.findAll());
     }
 
-    @GetMapping("/verify")
+    @GetMapping(value = "/verify")
     public ResponseEntity<Map<String, Object>> verifyToken(@RequestHeader("Authorization") String bearerToken) {
-        bearerToken = bearerToken.substring(7);
         Map<String, Object> res = new HashMap<String, Object>();
-        try {
-            DecodedJWT verfily = new TokenHandler().verifyToken(bearerToken);
-            res.put("status", 200);
-            res.put("message", "valid token");
-            res.put("token", verfily);
-            return new ResponseEntity<Map<String, Object>>(res, null, 200);
-        } catch (Exception e) {
+        if(bearerToken.length() > 10){
+            bearerToken = bearerToken.substring(7);
+            try {
+                DecodedJWT verfily = new TokenHandler().verifyToken(bearerToken);
+                res.put("status", 200);
+                res.put("role", verfily.getIssuer());
+                res.put("message", "valid token");
+                return ResponseEntity.ok(res);
+            } catch (Exception e) {
+                res.put("status", 400);
+                res.put("message", "invalid token or expired token");
+                return ResponseEntity.ok(res);
+            }
+        }else {
             res.put("status", 400);
-            res.put("message", "invalid token or expired token");
-            res.put("token", bearerToken);
+            res.put("message", "itoken error");
             return ResponseEntity.ok(res);
         }
     }
@@ -110,9 +115,9 @@ public class AuthController {
         String token;
 
         if (res.getRole().equals("ADMIN")) {
-            token = new TokenHandler().generateToken(res.getEmail(), "ADMIN", res.getUsername());
+            token = new TokenHandler().generateToken(res.getEmail(), "ADMIN", res.getUser_id());
         } else {
-            token = new TokenHandler().generateToken(res.getEmail(), "USER",res.getUsername());
+            token = new TokenHandler().generateToken(res.getEmail(), "USER",res.getUser_id());
         }
 
         response.put("status", 200);

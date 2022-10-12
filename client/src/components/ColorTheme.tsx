@@ -22,7 +22,10 @@ const ColorTheme: React.FC<ColorThemeProps> = observer((props) => {
       }`}
       onClick={() => handleClick(props.color, props.title)}
     >
-      <div className={`w-3 h-3 rounded-full ${props.color}`} />
+      <div
+        className="w-3 h-3 rounded-full"
+        style={{ backgroundColor: `#${props.color}` }}
+      />
       <p className="capitalize text-white">{props.title}</p>
     </span>
   );

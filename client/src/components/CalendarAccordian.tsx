@@ -3,16 +3,13 @@ import autoAnimate from "@formkit/auto-animate";
 import { MdOutlineClose } from "react-icons/md";
 import styled from "styled-components";
 import Chip from "./Chip";
+import { EventType } from "../api/eventRouter";
+import { FcFullTrash } from "react-icons/fc";
+import DeleteWarning from "./DeleteWarning";
 
-interface CalendarAccordianProps {
-  color: string;
-  header: string;
-  description?: string;
-  color_meaning?: string;
-}
-
-const CalendarAccordian: React.FC<CalendarAccordianProps> = (props) => {
+const CalendarAccordian: React.FC<EventType> = (props) => {
   const [show, setShow] = useState<boolean>(false);
+  const [deleteInterupt, setDeleteInterupt] = useState<boolean>(false);
   const parent = useRef(null);
 
   useEffect(() => {
@@ -29,28 +26,67 @@ const CalendarAccordian: React.FC<CalendarAccordianProps> = (props) => {
     <div className="animate-popup">
       <div
         className={`bg-[#1D2A36] p-5 flex items-center rounded-xl gap-4 ${
-          show ? "max-w-[50vw] max-h-[50vh] overflow-scroll" : ""
-        }`}
+          show ? "max-w-[40vw] max-h-[50vh] overflow-scroll" : ""
+        } min-w-[30vw]`}
       >
         <div>
           <div
-            className={`w-6 rounded-full ${props.color} ${
+            className={`w-6 rounded-full ${
               show ? "h-[10vh] w-2" : "h-6 w-6"
             } duration-300 ease-in-out`}
+            style={{ backgroundColor: `#${props.color.hex_code}` }}
           ></div>
         </div>
         <div className="w-full duration-500" ref={parent}>
           <div className={`flex ${show ? "pb-2" : ""}`}>
-            <div className="flex flex-col gap-5">
+            <div
+              className={`flex gap-5 ${
+                show
+                  ? "flex-col"
+                  : "flex-row items-center justify-between w-[100%]"
+              }`}
+            >
               <HeaderCustom
                 className={`dropdown-label text-xl text-white hover:cursor-pointer ${
-                  show ? "text-3xl font-bold" : "max-w-[15vw] truncate"
+                  show ? "text-3xl font-bold" : "max-w-[20vw] truncate"
                 }`}
                 onClick={reveal}
               >
                 {props.header}
               </HeaderCustom>
-              {show && <Chip title="Study Break" />}
+              {deleteInterupt ? (
+                <DeleteWarning
+                  open={deleteInterupt}
+                  handleChange={() => setDeleteInterupt(false)}
+                  event_id={props.event_id}
+                />
+              ) : (
+                ""
+              )}
+              {show ? (
+                ""
+              ) : (
+                <div
+                  className="mr-2 hover:bg-slate-300 hover:bg-opacity-40 duration-100 ease-in p-1 rounded-full cursor-pointer"
+                  onClick={() => setDeleteInterupt(true)}
+                >
+                  <FcFullTrash size={25} />
+                </div>
+              )}
+
+              {show && (
+                <div className="flex gap-2">
+                  <Chip
+                    title={props.color.color_meaning}
+                    color={props.color.hex_code}
+                  />
+                  {props.time_range ? (
+                    <Chip title={props.time_range} color="AAC4FF" />
+                  ) : (
+                    ""
+                  )}
+                </div>
+              )}
             </div>
             {show && (
               <div className="flex flex-grow items-start justify-end pl-10">
