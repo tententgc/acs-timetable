@@ -3,14 +3,33 @@ import autoAnimate from "@formkit/auto-animate";
 import { MdOutlineClose } from "react-icons/md";
 import styled from "styled-components";
 import Chip from "./Chip";
-import { EventType } from "../api/eventRouter";
-import { FcFullTrash } from "react-icons/fc";
+import { deleteEvent, EventType } from "../api/eventRouter";
+import { FcFullTrash, FcSupport } from "react-icons/fc";
 import DeleteWarning from "./DeleteWarning";
+import { ToastContainer, toast } from "react-toastify";
+import { injectStyle } from "react-toastify/dist/inject-style";
+import { AuthenStoreImpl } from "../store/AuthenStore";
+import { CalendarStoreImpl } from "../store/CalendarStore";
+import EventEditForm from "./EventEditForm";
 
-const CalendarAccordian: React.FC<EventType> = (props) => {
+type CalendarAccordianProps = EventType & {
+  store: AuthenStoreImpl;
+  eventStore: CalendarStoreImpl;
+};
+
+const CalendarAccordian: React.FC<CalendarAccordianProps> = (props) => {
   const [show, setShow] = useState<boolean>(false);
   const [deleteInterupt, setDeleteInterupt] = useState<boolean>(false);
+  const [openEditform, setOpenEditForm] = useState<boolean>(false);
   const parent = useRef(null);
+
+  const handleClose = () => {
+    setOpenEditForm(false);
+  };
+
+  if (typeof window !== "undefined") {
+    injectStyle();
+  }
 
   useEffect(() => {
     parent.current &&
@@ -21,6 +40,28 @@ const CalendarAccordian: React.FC<EventType> = (props) => {
   }, [parent]);
 
   const reveal = () => setShow(!show);
+
+  const handleChange = async (val: string) => {
+    setDeleteInterupt(false);
+    if (val === "Yes") {
+      const res = await deleteEvent(props.event_id);
+
+      if (res.status === 200) {
+        toast.success(res.message);
+        setTimeout(() => {
+          const date = `${props.eventStore.currYear}-${(
+            props.eventStore.currMonth + 1
+          )
+            .toString()
+            .padStart(2, "0")}`;
+          props.eventStore.setWorkAll(date);
+          props.eventStore.modalOpen = false;
+        }, 1000);
+      } else {
+        toast.error(res.message);
+      }
+    }
+  };
 
   return (
     <div className="animate-popup">
@@ -57,21 +98,30 @@ const CalendarAccordian: React.FC<EventType> = (props) => {
               {deleteInterupt ? (
                 <DeleteWarning
                   open={deleteInterupt}
-                  handleChange={() => setDeleteInterupt(false)}
+                  handleChange={handleChange}
                   event_id={props.event_id}
                 />
               ) : (
                 ""
               )}
-              {show ? (
-                ""
-              ) : (
-                <div
-                  className="mr-2 hover:bg-slate-300 hover:bg-opacity-40 duration-100 ease-in p-1 rounded-full cursor-pointer"
-                  onClick={() => setDeleteInterupt(true)}
-                >
-                  <FcFullTrash size={25} />
+              {props.store.user_status === 200 && !show ? (
+                <div className="flex">
+                  <div
+                    className="mr-2 hover:bg-slate-300 hover:bg-opacity-40 duration-100 ease-in p-1 rounded-full cursor-pointer"
+                    onClick={() => setOpenEditForm(true)}
+                  >
+                    <FcSupport size={25} />
+                  </div>
+
+                  <div
+                    className="mr-2 hover:bg-slate-300 hover:bg-opacity-40 duration-100 ease-in p-1 rounded-full cursor-pointer"
+                    onClick={() => setDeleteInterupt(true)}
+                  >
+                    <FcFullTrash size={25} />
+                  </div>
                 </div>
+              ) : (
+                ""
               )}
 
               {show && (
@@ -102,6 +152,26 @@ const CalendarAccordian: React.FC<EventType> = (props) => {
           {show && <p className="text-white leading-7">{props.description}</p>}
         </div>
       </div>
+      {openEditform ? (
+        <EventEditForm
+          handleClose={handleClose}
+          store={props.eventStore}
+          event_date={props.event_date}
+          description={props.description}
+          open={openEditform}
+          time_range={props.time_range}
+          header={props.header}
+          event_id={props.event_id}
+        />
+      ) : (
+        ""
+      )}
+      <ToastContainer
+        position="bottom-right"
+        autoClose={1000}
+        hideProgressBar={true}
+        theme="light"
+      />
     </div>
   );
 };

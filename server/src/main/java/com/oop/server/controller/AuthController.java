@@ -47,9 +47,11 @@ public class AuthController {
             bearerToken = bearerToken.substring(7);
             try {
                 DecodedJWT verfily = new TokenHandler().verifyToken(bearerToken);
+                UserModel userModel = userRepository.findById(verfily.getAudience().get(0)).orElse(null);
                 res.put("status", 200);
                 res.put("role", verfily.getIssuer());
                 res.put("message", "valid token");
+                res.put("username", userModel.getUsername());
                 return ResponseEntity.ok(res);
             } catch (Exception e) {
                 res.put("status", 400);

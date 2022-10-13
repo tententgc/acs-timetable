@@ -2,10 +2,12 @@ import React, { useEffect, useState } from "react";
 import { CalendarStoreImpl } from "../store/CalendarStore";
 import ColorTheme from "./ColorTheme";
 import { observer } from "mobx-react";
-import { ColorResponse, fetchAllColor } from "../api/colorRouter";
+import { ColorResponse } from "../api/colorRouter";
+import { ColorStoreImpl } from "../store/ColorStore";
 
 interface CalendarColorThemeProps {
   store: CalendarStoreImpl;
+  colorStore: ColorStoreImpl;
 }
 
 const CalendarColorTheme: React.FC<CalendarColorThemeProps> = observer(
@@ -14,12 +16,12 @@ const CalendarColorTheme: React.FC<CalendarColorThemeProps> = observer(
 
     useEffect(() => {
       async function fetch() {
-        const res = await fetchAllColor();
-        setColorData(res);
+        await props.colorStore.fetchColorTheme();
+        setColorData(props.colorStore.theme);
       }
 
       fetch();
-    }, []);
+    }, [props.colorStore]);
 
     return (
       <div className="absolute border-2 w-[10rem] top-[5%] left-[2%] rounded-lg shadow-xl py-2">

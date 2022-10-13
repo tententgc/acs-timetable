@@ -49,6 +49,7 @@ interface VerifyTokenResponse {
   status: number;
   role?: string;
   message: string;
+  username: string;
 }
 
 const axios_default_option = {
@@ -100,6 +101,7 @@ export async function VerifyToken() {
   const obj: Omit<VerifyTokenResponse, "message"> = {
     role: res.data.role,
     status: res.data.status,
+    username: res.data.username,
   };
   return obj;
 }

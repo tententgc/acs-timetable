@@ -8,24 +8,10 @@ import {
   FcCapacitor,
 } from "react-icons/fc";
 import EventForm from "./EventForm";
+import { CalendarStore } from "../store/CalendarStore";
+import { ColorStore } from "../store/ColorStore";
 
-interface ItemProps {
-  icons: any;
-  title: string;
-}
-
-const item: Array<ItemProps> = [
-  {
-    icons: <FcAddDatabase size={25} />,
-    title: "Create Event",
-  },
-  {
-    icons: <FcCapacitor size={25} />,
-    title: "Sign Out",
-  },
-];
-
-const Drawer: React.FC<{ role: string }> = (props) => {
+const Drawer: React.FC<{ role: string; username: string }> = (props) => {
   const [openDrawer, setOpenDrawer] = useState<boolean>(false);
   const [openList, setOpenList] = useState<{ form: boolean }>({ form: false });
 
@@ -71,9 +57,7 @@ const Drawer: React.FC<{ role: string }> = (props) => {
             : "hidden"
         }`}
         onClick={handleClick}
-      >
-        Heloworld
-      </div>
+      ></div>
       <div
         className={`bg-[#181828] w-[20vw] fixed top-0 right-0 h-[100vh] border-l-[1px] rounded-lg ${
           openDrawer ? "translate-x-0" : "translate-x-[20rem]"
@@ -95,26 +79,14 @@ const Drawer: React.FC<{ role: string }> = (props) => {
                 className="animate-[spin_10s_linear_infinite]"
               />
             </div>
-            <p className="text-white text-xl">Setting</p>
+            <p className="text-white text-xl">{props.username}</p>
           </div>
           <div className="list-drawer mt-6">
-            {item.map((item) => {
-              return (
-                <div
-                  className="my-2 px-5 py-2 hover:bg-slate-400 ease-in duration-100 cursor-pointer hover:bg-opacity-50"
-                  key={Math.random()}
-                  onClick={() => handleSignOut(item.title)}
-                  id={item.title}
-                >
-                  <div className="flex gap-4 items-center ">
-                    <div>{item.icons}</div>
-                    <p className="text-white">{item.title}</p>
-                  </div>
-                </div>
-              );
-            })}
             {props.role === "ADMIN" ? (
-              <div className="my-2 px-5 py-2 hover:bg-slate-400 ease-in duration-100 cursor-pointer hover:bg-opacity-50">
+              <div
+                className="my-2 px-5 py-2 hover:bg-slate-400 ease-in duration-100 cursor-pointer hover:bg-opacity-50"
+                onClick={() => handleSignOut("Create Event")}
+              >
                 <div className="flex gap-4 items-center ">
                   <div>
                     <FcRadarPlot size={25} />
@@ -123,13 +95,40 @@ const Drawer: React.FC<{ role: string }> = (props) => {
                 </div>
               </div>
             ) : (
-              ""
+              <div
+                className="my-2 px-5 py-2 hover:bg-slate-400 ease-in duration-100 cursor-pointer hover:bg-opacity-50"
+                onClick={() => handleSignOut("Create Event")}
+              >
+                <div className="flex gap-4 items-center ">
+                  <div>
+                    <FcAddDatabase size={25} />
+                  </div>
+                  <p className="text-white">Create Event</p>
+                </div>
+              </div>
             )}
+            <div
+              className="my-2 px-5 py-2 hover:bg-slate-400 ease-in duration-100 cursor-pointer hover:bg-opacity-50"
+              onClick={() => handleSignOut("Sign Out")}
+            >
+              <div className="flex gap-4 items-center ">
+                <div>
+                  <FcCapacitor size={25} />
+                </div>
+                <p className="text-white">Sign Out</p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
       {openList.form ? (
-        <EventForm handleList={handleList} open={openList.form} />
+        <EventForm
+          role={props.role}
+          handleList={handleList}
+          open={openList.form}
+          store={CalendarStore}
+          colorStore={ColorStore}
+        />
       ) : (
         ""
       )}

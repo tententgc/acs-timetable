@@ -57,9 +57,9 @@ public class EventController {
 
         try {
             DecodedJWT verify = new TokenHandler().verifyToken(bearerToken);
-            String email = verify.getSubject();
             String role = verify.getIssuer();
-            UserModel userModel = userRepository.findByEmail(email);
+            String user_id = verify.getAudience().get(0);
+            UserModel userModel = userRepository.findByUser_id(user_id);
 
             if (userModel == null) {
                 res.put("status", 500);
@@ -107,13 +107,13 @@ public class EventController {
             String role = verify.getIssuer();
             if (eventDB == null) {
                 res.put("status", 500);
-                res.put("error", "cannot find id");
+                res.put("message", "cannot find id");
                 return ResponseEntity.ok(res);
             }
 
             if(eventDB.getUser().getRole().equals("ADMIN") && role.equals("USER")){
                 res.put("status", 500);
-                res.put("error", "cannot update admin post");
+                res.put("message", "cannot update post");
                 return ResponseEntity.ok(res);
             }
 
@@ -121,9 +121,9 @@ public class EventController {
             eventDB.setDate(req.getEvent_date());
             eventDB.setDescription(req.getDescription());
             eventDB.setTime_range(req.getTime_range());
+            eventRepository.save(eventDB);
             res.put("status", 200);
-            res.put("data", eventRepository.save(eventDB));
-
+            res.put("message", "your event have been updated");
 
             return ResponseEntity.ok(res);
 
@@ -181,17 +181,18 @@ public class EventController {
 
             if(eventDB.getUser().getRole().equals("ADMIN") && role.equals("USER")){
                 res.put("status", 500);
-                res.put("error", "cannot delete admin post");
+                res.put("message", "cannot delete admin post");
                 return ResponseEntity.ok(res);
             }
 
             eventRepository.deleteById(id);
             res.put("status", 200);
+            res.put("message", "delete successfully");
             return ResponseEntity.ok(res);
 
         } catch (Exception e) {
             res.put("status", 500);
-            res.put("error", "server error");
+            res.put("message", "server error");
             
             return ResponseEntity.ok(res);
         }

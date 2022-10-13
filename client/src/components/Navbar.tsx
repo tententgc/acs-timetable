@@ -3,24 +3,25 @@ import logo from "../assets/logo.png";
 import Modal from "./Modal";
 import { AuthenStore, AuthenStoreImpl } from "../store/AuthenStore";
 import { observer } from "mobx-react";
-import { VerifyToken } from "../api/authen";
 import Drawer from "./Drawer";
 
 const Navbar: React.FC<{ store: AuthenStoreImpl }> = observer((props) => {
   const [isAuthen, setIsAuthen] = useState<boolean>(false);
   const [role, setRole] = useState<string>("");
+  const [username, setUsername] = useState<string>("");
 
   useEffect(() => {
     async function verifyToken() {
-      const res = await VerifyToken();
+      const res = await props.store.verifyToken();
       if (res.status === 200 && res.role) {
         setIsAuthen(true);
         setRole(res.role);
+        setUsername(res.username);
       }
     }
 
     verifyToken();
-  }, []);
+  }, [props.store]);
 
   return (
     <div className="">
@@ -34,7 +35,7 @@ const Navbar: React.FC<{ store: AuthenStoreImpl }> = observer((props) => {
               </a>
             </div>
             {isAuthen ? (
-              <Drawer role={role} />
+              <Drawer role={role} username={username} />
             ) : (
               <div className="hidden justify-between items-center w-full md:flex md:w-auto md:order-1">
                 <div className="flex flex-col p-4 mt-4 rounded-lg border md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 ">

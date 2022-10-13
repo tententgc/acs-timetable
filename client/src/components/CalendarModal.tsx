@@ -2,6 +2,7 @@ import { observer } from "mobx-react";
 import React from "react";
 import { CalendarStoreImpl } from "../store/CalendarStore";
 import CalendarAccordian from "./CalendarAccordian";
+import { AuthenStore } from "../store/AuthenStore";
 
 interface CalendarModalProps {
   store: CalendarStoreImpl;
@@ -21,7 +22,14 @@ const CalendarModal: React.FC<CalendarModalProps> = observer((props) => {
     >
       <div className="flex flex-col gap-2">
         {props.store.modalData.map((item) => {
-          return <CalendarAccordian {...item} key={Math.random()} />;
+          return (
+            <CalendarAccordian
+              {...item}
+              key={Math.random()}
+              store={AuthenStore}
+              eventStore={props.store}
+            />
+          );
         })}
       </div>
     </div>

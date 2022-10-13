@@ -2,13 +2,13 @@ import React from "react";
 
 interface DeleteWarningProps {
   open: boolean;
-  handleChange: () => void;
+  handleChange: (val: string) => void;
   event_id: string;
 }
 
 const DeleteWarning: React.FC<DeleteWarningProps> = (props) => {
-  const handleClick = () => {
-    props.handleChange();
+  const handleClick = (e: React.MouseEvent) => {
+    props.handleChange(e.currentTarget.innerHTML);
   };
 
   return (

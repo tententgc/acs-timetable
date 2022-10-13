@@ -1,43 +1,41 @@
 import React, { useState } from "react";
 import InputCustom from "./InputCustom";
 import { FcCloseUpMode } from "react-icons/fc";
-import { addLocalEvent, formDataType } from "../api/eventRouter";
 import { CalendarStoreImpl } from "../store/CalendarStore";
-import { ColorStoreImpl } from "../store/ColorStore";
+import { putEvent, PutEventRequest } from "../api/eventRouter";
+import { ToastContainer, toast } from "react-toastify";
+import { injectStyle } from "react-toastify/dist/inject-style";
 
-interface EventFormProps {
+interface EventFormType {
   open: boolean;
-  handleList: () => void;
+  handleClose: () => void;
   store: CalendarStoreImpl;
-  role: string;
-  colorStore: ColorStoreImpl;
 }
 
-const formItem: formDataType = {
-  header: "",
-  description: "",
-  time_range: "",
-  event_date: "",
-};
+type EventFormProps = PutEventRequest & EventFormType;
 
-const EventForm: React.FC<EventFormProps> = (props) => {
-  const [formData, setFormData] = useState<formDataType>(formItem);
+if (typeof window !== "undefined") {
+  injectStyle();
+}
+
+const EventEditForm: React.FC<EventFormProps> = (props) => {
+  const [formData, setFormData] = useState<
+    Omit<EventFormProps, "handleClose" | "store" | "open" | "event_id">
+  >({
+    header: props.header,
+    description: props.description,
+    time_range: props.time_range,
+    event_date: props.event_date,
+  });
   const [timeRange, setTimeRange] = useState<{ t1: string; t2: string }>({
     t1: "",
     t2: "",
   });
-  const [colorOption, setColorOption] = useState<string>(
-    props.colorStore.theme[0].hex_code
-  );
 
   const handleClick = (e: React.MouseEvent) => {
     if (e.target === e.currentTarget) {
-      props.handleList();
+      props.handleClose();
     }
-  };
-
-  const handleChangeOption = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setColorOption(e.target.value);
   };
 
   const handleChange = (
@@ -63,17 +61,16 @@ const EventForm: React.FC<EventFormProps> = (props) => {
   const handleSubmit = async (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
     formData.time_range = timeRange.t1 + timeRange.t2;
-    if (colorOption.length > 1) {
-      formData.color = { hex_code: colorOption };
+
+    const res = await putEvent({ ...formData, event_id: props.event_id });
+    if (res.status === 200) {
+      toast.success(res.message);
+      setTimeout(() => {
+        window.location.reload();
+      }, 500);
+    } else {
+      toast.error(res.message);
     }
-
-    await addLocalEvent(formData);
-
-    props.handleList();
-    const date = `${props.store.currYear}-${(props.store.currMonth + 1)
-      .toString()
-      .padStart(2, "0")}`;
-    props.store.setWorkAll(date);
   };
 
   return (
@@ -114,7 +111,7 @@ const EventForm: React.FC<EventFormProps> = (props) => {
             </div>
             <div
               className="p-2 hover:bg-white hover:bg-opacity-30 ease-in duration-100 rounded-full"
-              onClick={() => props.handleList()}
+              onClick={() => props.handleClose()}
             >
               <FcCloseUpMode size={20} />
             </div>
@@ -125,6 +122,7 @@ const EventForm: React.FC<EventFormProps> = (props) => {
               placeholder="description"
               name="description"
               onChange={handleChange}
+              value={formData.description}
             />
           </div>
           <div className="mt-3 flex items-center justify-between">
@@ -144,25 +142,6 @@ const EventForm: React.FC<EventFormProps> = (props) => {
                 onChange={handleChange}
               />
             </div>
-            {props.role === "ADMIN" ? (
-              <div className="mx-2 h-5 flex items-center justify-center">
-                <select
-                  className="w-[6rem] h-6 px-2 outline-none rounded-sm"
-                  onChange={handleChangeOption}
-                  value={colorOption}
-                >
-                  {props.colorStore.adminSelect.map((item) => {
-                    return (
-                      <option value={item.hex_code} key={Math.random()}>
-                        {item.color_meaning}
-                      </option>
-                    );
-                  })}
-                </select>
-              </div>
-            ) : (
-              ""
-            )}
             <div className="mr-5">
               <button
                 className="px-2 py-1 flex hover:bg-opacity-40 hover:bg-slate-400 duration-100 ease-in rounded-lg"
@@ -174,8 +153,14 @@ const EventForm: React.FC<EventFormProps> = (props) => {
           </div>
         </form>
       </div>
+      <ToastContainer
+        position="bottom-right"
+        autoClose={1000}
+        hideProgressBar={true}
+        theme="light"
+      />
     </div>
   );
 };
 
-export default EventForm;
+export default EventEditForm;

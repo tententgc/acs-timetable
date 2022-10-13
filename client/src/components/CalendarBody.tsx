@@ -7,6 +7,7 @@ import {
   strDay2Num,
 } from "../helper/timeController";
 import { CalendarStoreImpl } from "../store/CalendarStore";
+import { ColorStore } from "../store/ColorStore";
 import CalendarBox from "./CalendarBox";
 import CalendarColorTheme from "./CalendarColorTheme";
 import WaitingData from "./WaitingData";
@@ -27,7 +28,7 @@ const CalendarBody: React.FC<CalendarBodyProps> = observer((props) => {
         ""
       )}
       <div>
-        <CalendarColorTheme store={props.store} />
+        <CalendarColorTheme store={props.store} colorStore={ColorStore} />
       </div>
       <div className="grid grid-cols-7 gap-6 mx-[15rem] mt-3">
         {dateList.map((item, index) => {
