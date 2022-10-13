@@ -1,5 +1,6 @@
 package com.oop.server.controller;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,7 +43,9 @@ public class ColorController {
         try {
             boolean isAdmin = new TokenHandler().isAdmin(bearerToken);
             if (isAdmin) {
-                res.put("data", colorRepository.saveAll(req));
+                for (ColorModel colorModel : req) {
+                    colorRepository.saveColorModel(colorModel.getHex_code(), colorModel.getColor_meaning(), LocalDateTime.now(), LocalDateTime.now());
+                }
                 res.put("status", 200);
                 return ResponseEntity.ok(res);
             } else {
@@ -51,8 +54,8 @@ public class ColorController {
                 return ResponseEntity.ok(res);
             }
         } catch (Exception e) {
-            res.put("status", 404);
-            res.put("error", "cannot verify token");
+            res.put("status", 200);
+            res.put("error", "verify token");
             return ResponseEntity.ok(res);
         }
     }
@@ -70,7 +73,7 @@ public class ColorController {
         colorDB.setColor_meaning(req.getColor_meaning());
 
         res.put("status", 200);
-        res.put("data", colorRepository.save(colorDB));
+        res.put("data", colorRepository.saveColorModel(colorDB.getHex_code(), colorDB.getColor_meaning(), colorDB.getCreate_at(), LocalDateTime.now()));
 
         return ResponseEntity.ok(res);
     }

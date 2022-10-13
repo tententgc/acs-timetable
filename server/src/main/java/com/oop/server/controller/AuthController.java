@@ -1,5 +1,6 @@
 package com.oop.server.controller;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,11 +36,6 @@ public class AuthController {
         return new BCryptPasswordEncoder();
     }
 
-    @GetMapping(value = "/get")
-    public ResponseEntity<Iterable<UserModel>> Test() {
-        return ResponseEntity.ok(userRepository.findAll());
-    }
-
     @GetMapping(value = "/verify")
     public ResponseEntity<Map<String, Object>> verifyToken(@RequestHeader("Authorization") String bearerToken) {
         Map<String, Object> res = new HashMap<String, Object>();
@@ -47,7 +43,7 @@ public class AuthController {
             bearerToken = bearerToken.substring(7);
             try {
                 DecodedJWT verfily = new TokenHandler().verifyToken(bearerToken);
-                UserModel userModel = userRepository.findById(verfily.getAudience().get(0)).orElse(null);
+                UserModel userModel = userRepository.findByUser_id(verfily.getAudience().get(0));
                 res.put("status", 200);
                 res.put("role", verfily.getIssuer());
                 res.put("message", "valid token");
@@ -87,7 +83,7 @@ public class AuthController {
             return ResponseEntity.ok(res);
         }
 
-        UserModel response = userRepository.save(req);
+        UserModel response = userRepository.saveModel(req.getUser_id(), req.getEmail(), req.getUsername(), req.getPassword(), req.getRole(), LocalDateTime.now(), LocalDateTime.now());
 
         res.put("status", 201);
         res.put("data", response);

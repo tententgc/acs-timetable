@@ -1,5 +1,6 @@
 package com.oop.server.repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.Query;
@@ -15,4 +16,8 @@ public interface ColorRepository extends CrudRepository<ColorModel, String> {
 
     @Query(value = "select * from colors where hex_code = :hex_code", nativeQuery = true)
     ColorModel findByHex_code(@Param("hex_code") String hex_code);
+
+
+    @Query(value = "insert into colors(hex_code, color_meaning, create_at, update_at) values(:hex_code, :color_meaning, :create_at, :update_at)", nativeQuery = true)
+    ColorModel saveColorModel(@Param("hex_code") String hex_code, @Param("color_meaning") String color_meaning, @Param("create_at") LocalDateTime create_at, @Param("update_at") LocalDateTime update_at);
 }

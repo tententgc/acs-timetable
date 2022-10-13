@@ -1,5 +1,6 @@
 package com.oop.server.controller;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,16 +40,6 @@ public class EventController {
     @Autowired
     ColorRepository colorRepository;
 
-    @GetMapping("/get")
-    public Iterable<EventModel> getAllEvent() {
-        return eventRepository.findAll();
-    }
-
-    @PostMapping("/datasetevent")
-    public Iterable<EventModel> postAllEvent(@RequestBody List<EventModel> req){
-        return eventRepository.saveAll(req);
-    }
-
     @PostMapping("/add")
     public ResponseEntity<Map<String, Object>> createEvent(@RequestHeader("Authorization") String bearerToken,
             @RequestBody EventModel req) {
@@ -84,7 +75,7 @@ public class EventController {
             }
 
             res.put("status", 200);
-            res.put("data", eventRepository.save(req));
+            res.put("data", eventRepository.saveEventModel(req.getEvent_id(), req.getHeader(), req.getDescription(), req.getEvent_date(), req.getTime_range(), LocalDateTime.now(), LocalDateTime.now(), req.getUser(), req.getColor()));
 
             return ResponseEntity.ok(res);
 
@@ -103,7 +94,7 @@ public class EventController {
 
         try {
             DecodedJWT verify = new TokenHandler().verifyToken(bearerToken);
-            EventModel eventDB = eventRepository.findById(id).orElse(null);
+            EventModel eventDB = eventRepository.findByEvent_id(id);
             String role = verify.getIssuer();
             if (eventDB == null) {
                 res.put("status", 500);
@@ -117,11 +108,7 @@ public class EventController {
                 return ResponseEntity.ok(res);
             }
 
-            eventDB.setHeader(req.getHeader());
-            eventDB.setDate(req.getEvent_date());
-            eventDB.setDescription(req.getDescription());
-            eventDB.setTime_range(req.getTime_range());
-            eventRepository.save(eventDB);
+            eventRepository.updateEventModel(req.getEvent_id(), req.getHeader(), req.getDescription(), req.getEvent_date(), req.getTime_range(), LocalDateTime.now());
             res.put("status", 200);
             res.put("message", "your event have been updated");
 
@@ -175,7 +162,7 @@ public class EventController {
         Map<String, Object> res = new HashMap<String, Object>();
         try {
             DecodedJWT verify = new TokenHandler().verifyToken(bearerToken);
-            EventModel eventDB = eventRepository.findById(id).orElse(null);
+            EventModel eventDB = eventRepository.findByEvent_id(id);
             String role = verify.getIssuer();
 
 
@@ -185,7 +172,7 @@ public class EventController {
                 return ResponseEntity.ok(res);
             }
 
-            eventRepository.deleteById(id);
+            eventRepository.deleteEventModel(id);
             res.put("status", 200);
             res.put("message", "delete successfully");
             return ResponseEntity.ok(res);
