@@ -163,11 +163,11 @@ const Register: React.FC<{ store: AuthenStoreImpl }> = (props) => {
             />
             <label htmlFor="title1" className="font-light ml-2 text-sm">
               Agree to{" "}
-              <span className="border-b-[1px] hover:border-black transition-all duration-250 cursor-pointer">
+              <span className="border-b-[1px] hover:border-black hover:text-black transition-all duration-250 cursor-pointer">
                 Terms and Conditions
               </span>{" "}
               &{" "}
-              <span className="border-b-[1px] hover:border-black transition-all duration-250 cursor-pointer">
+              <span className="border-b-[1px] hover:border-black hover:text-black transition-all duration-250 cursor-pointer">
                 Privacy Policy
               </span>
             </label>
@@ -185,7 +185,7 @@ const Register: React.FC<{ store: AuthenStoreImpl }> = (props) => {
               className="font-light ml-2 text-sm mt-[-3.5px]"
             >
               Agree to get time-saving{" "}
-              <span className="border-b-[1px] hover:border-black transition-all duration-250 cursor-pointer">
+              <span className="border-b-[1px] hover:border-black hover:text-black transition-all duration-250 cursor-pointer">
                 design articles
               </span>{" "}
               and new release notifications
@@ -196,7 +196,7 @@ const Register: React.FC<{ store: AuthenStoreImpl }> = (props) => {
           <button
             className={`px-10 py-2 w-full h-full flex font-bold ${
               checkCaseObj({ ...formData, ...checkBox })
-                ? "cursor-not-allowed  bg-gray-100 text-gray-300"
+                ? "cursor-not-allowed  bg-[gray] text-gray-300"
                 : "bg-black text-white"
             } duration-150 ease-linear`}
             onClick={handleSubmit}

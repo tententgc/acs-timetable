@@ -24,7 +24,7 @@ const CalendarHeader: React.FC<CalendarHeaderProps> = (props) => {
             viewBox="0 0 24 24"
             strokeWidth={1.5}
             stroke="currentColor"
-            className="w-10 h-10 cursor-pointer rounded-full  bg-white hover:bg-[#333333] hover:text-white duration-200 ease-linear"
+            className="w-10 h-10 cursor-pointer rounded-full  hover:bg-[#413e65] hover:text-white duration-200 ease-linear"
             onClick={() => handleClick(-1)}
           >
             <path
@@ -46,7 +46,7 @@ const CalendarHeader: React.FC<CalendarHeaderProps> = (props) => {
             viewBox="0 0 24 24"
             strokeWidth={1.5}
             stroke="currentColor"
-            className="w-10 h-10 cursor-pointer rounded-full bg-white hover:bg-[#333333] hover:text-white duration-200 ease-linear"
+            className="w-10 h-10 cursor-pointer rounded-full  hover:bg-[#413e65] duration-200 ease-linear"
             onClick={() => handleClick(1)}
           >
             <path

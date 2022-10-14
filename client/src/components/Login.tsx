@@ -72,7 +72,7 @@ const Login: React.FC<{ store: AuthenStoreImpl }> = (props) => {
 
   return (
     <div className="flex flex-col">
-      <h1 className="text-[27px] font-bold my-7">Log in to your account</h1>
+      <h1 className="text-[27px] font-bold my-7 text-white">Log in to your account</h1>
       <div className="flex flex-row justify-between">
         <span className="px-5 py-2 rounded-sm bg-slate-300">?</span>
         <span className="px-5 py-2 rounded-sm bg-slate-300">?</span>
@@ -80,7 +80,7 @@ const Login: React.FC<{ store: AuthenStoreImpl }> = (props) => {
         <span className="px-5 py-2 rounded-sm bg-slate-300">?</span>
         <span className="px-5 py-2 rounded-sm bg-slate-300">?</span>
       </div>
-      <div className="my-5">
+      <div className="my-5 text-white">
         <p>Or log in with an email</p>
       </div>
       <form onSubmit={handleSubmit}>
@@ -123,7 +123,7 @@ const Login: React.FC<{ store: AuthenStoreImpl }> = (props) => {
           <button
             className={`px-10 py-2 w-full h-full flex font-bold ${
               checkCaseObj({ ...formData })
-                ? "bg-gray-100 text-gray-300 cursor-not-allowed"
+                ? "bg-[gray] text-gray-300 cursor-not-allowed"
                 : "bg-black text-white cursor-pointer"
             } duration-150 ease-linear`}
             type="submit"

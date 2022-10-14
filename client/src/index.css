@@ -6,6 +6,7 @@
 
 * {
   font-family: "Inter", sans-serif;
+  color:white;
 }
 .example::-webkit-scrollbar {
   display: none;

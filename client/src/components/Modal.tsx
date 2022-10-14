@@ -38,7 +38,7 @@ const Modal: React.FC<ModalProps> = (props) => {
     >
       <div>
         <div
-          className={`fixed h-[630px] w-[840px] top-[calc(50%-630px/2)] left-[calc(50%-840px/2)] rounded-xl flex p-4 bg-white ${
+          className={`fixed h-[630px] w-[840px] top-[calc(50%-630px/2)] left-[calc(50%-840px/2)] rounded-xl flex p-4 bg-[#2c2a45] bg-opacity-95 ${
             props.isOpen ? "animate-popup" : ""
           }`}
         >

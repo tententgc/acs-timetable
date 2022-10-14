@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import logo from "../assets/logo.png";
+import logo from "../assets/ACS-White.png";
 import Modal from "./Modal";
 import { AuthenStore, AuthenStoreImpl } from "../store/AuthenStore";
 import { observer } from "mobx-react";
@@ -30,7 +30,7 @@ const Navbar: React.FC<{ store: AuthenStoreImpl }> = observer((props) => {
           <div className="container flex flex-wrap justify-between items-center mx-auto h-14">
             <div className="flex-shrink-0">
               <a href="/" className="flex items-center">
-                <img src={logo} className="mr-3 h-6 sm:h-9" alt="Acs logo" />
+                <img src={logo} className="mr-3 h-6 sm:h-14" alt="Acs logo" />
                 <span className="self-center text-xl font-semibold whitespace-nowrap"></span>
               </a>
             </div>
