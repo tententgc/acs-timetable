@@ -5,8 +5,9 @@ import { checkCaseObj } from "../helper/checkCaseObj";
 import { validateEmail } from "../helper/validateEmail";
 import InputCustom from "./InputCustom";
 import { BsFillCloudUploadFill } from "react-icons/bs";
-import { AiOutlineClose, AiOutlineCheck } from "react-icons/ai";
+import { AiOutlineClose } from "react-icons/ai";
 import { AuthenStoreImpl } from "../store/AuthenStore";
+import { FcCheckmark } from "react-icons/fc";
 
 interface formDataType {
   username: string;
@@ -72,10 +73,9 @@ const Register: React.FC<{ store: AuthenStoreImpl }> = (props) => {
 
       if (res === 201) {
         setAwaitButton({
-          ...awaitButton,
-          animate: <AiOutlineCheck color="green" />,
+          onLoad: true,
+          animate: <FcCheckmark color="green" />,
         });
-        setAwaitButton({ ...awaitButton, onLoad: false });
       } else {
         setAwaitButton({
           ...awaitButton,
@@ -93,11 +93,11 @@ const Register: React.FC<{ store: AuthenStoreImpl }> = (props) => {
     <div className="flex flex-col">
       <h1 className="text-[27px] font-bold my-7">Create account</h1>
       <div className="flex flex-row justify-between">
-        <span className="px-5 py-2 rounded-sm bg-slate-300">A</span>
-        <span className="px-5 py-2 rounded-sm bg-slate-300">A</span>
-        <span className="px-5 py-2 rounded-sm bg-slate-300">A</span>
-        <span className="px-5 py-2 rounded-sm bg-slate-300">A</span>
-        <span className="px-5 py-2 rounded-sm bg-slate-300">A</span>
+        <span className="px-5 py-2 rounded-sm bg-slate-300">?</span>
+        <span className="px-5 py-2 rounded-sm bg-slate-300">?</span>
+        <span className="px-5 py-2 rounded-sm bg-slate-300">?</span>
+        <span className="px-5 py-2 rounded-sm bg-slate-300">?</span>
+        <span className="px-5 py-2 rounded-sm bg-slate-300">?</span>
       </div>
       <div className="my-5">
         <p>Or log in with an email</p>

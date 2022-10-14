@@ -13,6 +13,7 @@ import javax.persistence.Table;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -33,7 +34,7 @@ public class EventModel {
     private String description;
 
     @Column(nullable = false)
-    private String date;
+    private String event_date;
 
     @Column
     private String time_range;
@@ -48,6 +49,7 @@ public class EventModel {
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
+    @JsonIgnore
     private UserModel user;
 
     @ManyToOne
@@ -60,6 +62,6 @@ public class EventModel {
     }
 
     public void setDate(String d) {
-        this.date = d.toString();
+        this.event_date = d.toString();
     }
 }

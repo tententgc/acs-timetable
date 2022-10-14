@@ -7,6 +7,7 @@ import {
   strDay2Num,
 } from "../helper/timeController";
 import { CalendarStoreImpl } from "../store/CalendarStore";
+import { ColorStore } from "../store/ColorStore";
 import CalendarBox from "./CalendarBox";
 import CalendarColorTheme from "./CalendarColorTheme";
 import WaitingData from "./WaitingData";
@@ -21,13 +22,13 @@ interface CalendarBodyProps {
 const CalendarBody: React.FC<CalendarBodyProps> = observer((props) => {
   return (
     <div className="border-2 rounded-3xl h-[90vh] m-14 bg-[#464675] overflow-scroll relative backdrop-blur-sm bg-opacity-40">
-      {props.store.workAll.length === 0 ? (
+      {props.store.workAll === null ? (
         <WaitingData animate={animationLottie} />
       ) : (
         ""
       )}
       <div>
-        <CalendarColorTheme store={props.store} />
+        <CalendarColorTheme store={props.store} colorStore={ColorStore} />
       </div>
       <div className="grid grid-cols-7 gap-6 mx-[15rem] mt-3">
         {dateList.map((item, index) => {

@@ -10,6 +10,7 @@ interface InputCustomProps {
   type: string;
   maxLength?: number;
   minLength?: number;
+  required?: boolean;
 }
 
 const InputCustom: React.FC<InputCustomProps> = (props) => {

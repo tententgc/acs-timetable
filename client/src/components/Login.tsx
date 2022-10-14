@@ -65,6 +65,7 @@ const Login: React.FC<{ store: AuthenStoreImpl }> = (props) => {
       } else {
         props.store.isOpenModal = false;
         setAwaitButton({ ...awaitButton, onLoad: false });
+        window.location.reload();
       }
     }
   };
@@ -73,11 +74,11 @@ const Login: React.FC<{ store: AuthenStoreImpl }> = (props) => {
     <div className="flex flex-col">
       <h1 className="text-[27px] font-bold my-7">Log in to your account</h1>
       <div className="flex flex-row justify-between">
-        <span className="px-5 py-2 rounded-sm bg-slate-300">A</span>
-        <span className="px-5 py-2 rounded-sm bg-slate-300">A</span>
-        <span className="px-5 py-2 rounded-sm bg-slate-300">A</span>
-        <span className="px-5 py-2 rounded-sm bg-slate-300">A</span>
-        <span className="px-5 py-2 rounded-sm bg-slate-300">A</span>
+        <span className="px-5 py-2 rounded-sm bg-slate-300">?</span>
+        <span className="px-5 py-2 rounded-sm bg-slate-300">?</span>
+        <span className="px-5 py-2 rounded-sm bg-slate-300">?</span>
+        <span className="px-5 py-2 rounded-sm bg-slate-300">?</span>
+        <span className="px-5 py-2 rounded-sm bg-slate-300">?</span>
       </div>
       <div className="my-5">
         <p>Or log in with an email</p>
@@ -118,12 +119,7 @@ const Login: React.FC<{ store: AuthenStoreImpl }> = (props) => {
             )}
           </div>
         </div>
-        <div className="my-5 flex">
-          <span className=" border-b-2 cursor-pointer hover:border-slate-400">
-            <p>Forgot your password?</p>
-          </span>
-        </div>
-        <div>
+        <div className="mt-5">
           <button
             className={`px-10 py-2 w-full h-full flex font-bold ${
               checkCaseObj({ ...formData })

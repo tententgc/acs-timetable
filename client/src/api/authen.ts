@@ -1,4 +1,7 @@
+import { SIGNIN, SIGNUP, VERIFYTOKEN } from "./../config/API";
 import axios, { AxiosResponse } from "axios";
+import { getAcessToken } from "../helper/getToken";
+// axios.defaults.baseURL = "http://localhost:1010/";
 
 interface SignUpProps {
   username: string;
@@ -39,17 +42,27 @@ interface SignInResponse {
   status: number;
   error?: string;
   token?: string;
+  role: string;
 }
+
+interface VerifyTokenResponse {
+  status: number;
+  role?: string;
+  message: string;
+  username: string;
+}
+
+const axios_default_option = {
+  headers: {
+    "Content-Type": "application/json",
+  },
+};
 
 export async function SignUp(data: SignUpProps) {
   const res: AxiosResponse<SignUpResponse> = await axios.post(
-    "http://localhost:8000/api/auth/signup",
+    SIGNUP,
     data,
-    {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }
+    axios_default_option
   );
 
   return res.data.status;
@@ -57,17 +70,38 @@ export async function SignUp(data: SignUpProps) {
 
 export async function SignIn(data: Omit<SignInProps, "username">) {
   const res: AxiosResponse<SignInResponse> = await axios.post(
-    "http://localhost:8000/api/auth/signin",
+    SIGNIN,
     data,
-    {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }
+    axios_default_option
   );
 
-  if (res.data.status === 200 && res.data.token) {
-    localStorage.setItem("USERDETAIL", res.data.token);
+  if (res.data.status === 200 && res.data.token && res.data.role === "ADMIN") {
+    sessionStorage.setItem("access_token", res.data.token);
+    return res.data.status;
   }
+
+  if (res.data.status === 200 && res.data.token) {
+    localStorage.setItem("access_token", res.data.token);
+  }
+
   return res.data.status;
+}
+
+export async function VerifyToken() {
+  const token = getAcessToken();
+
+  const res: AxiosResponse<VerifyTokenResponse> = await axios.get(VERIFYTOKEN, {
+    headers: {
+      "Content-type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    data: {},
+  });
+
+  const obj: Omit<VerifyTokenResponse, "message"> = {
+    role: res.data.role,
+    status: res.data.status,
+    username: res.data.username,
+  };
+  return obj;
 }
