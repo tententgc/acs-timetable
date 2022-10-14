@@ -16,9 +16,9 @@ const TabModal: React.FC<TabModalProps> = (props) => {
             onClick={() => props.setTab(item)}
             className={`${
               item === props.getTabItem()
-                ? "font-medium border-b-black border-b-[1px]"
+                ? "font-black border-b-black border-b-[1px]"
                 : ""
-            } cursor-pointer duration-100`}
+            } cursor-pointer`}
           >
             <p className="py-2">{item}</p>
           </div>

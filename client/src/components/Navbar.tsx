@@ -30,10 +30,13 @@ const Navbar: React.FC<{ store: AuthenStoreImpl }> = observer((props) => {
           <div className="container flex flex-wrap justify-between items-center mx-auto h-14">
             <div className="flex-shrink-0">
               <a href="/" className="flex items-center">
-                <img src={logo} className="mr-3 h-6 sm:h-14" alt="Acs logo" />
+                <img src={logo} className="mr-3 h-6 sm:h-16 sm:my-6" alt="Acs logo" />
                 <span className="self-center text-xl font-semibold whitespace-nowrap"></span>
               </a>
             </div>
+
+            
+
             {isAuthen ? (
               <Drawer role={role} username={username} />
             ) : (

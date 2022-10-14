@@ -16,7 +16,8 @@ const CalendarHeader: React.FC<CalendarHeaderProps> = (props) => {
 
   return (
     <div>
-      <div className="flex min-w-full items-center justify-around px-5 py-2 rounded-3xl bg-black">
+      <div className="flex items-center justify-center">
+      <div className="flex w-[60rem] items-center justify-around px-5 py-2 rounded-3xl bg-[#2c2a45]">
         <div>
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -57,6 +58,7 @@ const CalendarHeader: React.FC<CalendarHeaderProps> = (props) => {
           </svg>
         </div>
       </div>
+    </div>
     </div>
   );
 };

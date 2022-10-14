@@ -87,7 +87,7 @@ const EventForm: React.FC<EventFormProps> = (props) => {
         onClick={handleClick}
       >
         <form
-          className="w-[32rem] min-h-[10rem] bg-slate-700 rounded-lg p-5"
+          className="w-[35rem] min-h-[13rem] bg-slate-700 rounded-lg p-5"
           onSubmit={handleSubmit}
         >
           <div className="flex justify-between items-center my-2">
@@ -95,7 +95,7 @@ const EventForm: React.FC<EventFormProps> = (props) => {
               <InputCustom
                 onChange={handleChange}
                 name="header"
-                placeholder="header"
+                placeholder="Header"
                 type="text"
                 value={formData.header}
                 maxLength={200}
@@ -106,7 +106,7 @@ const EventForm: React.FC<EventFormProps> = (props) => {
               <input
                 type="date"
                 name="event_date"
-                className="rounded-sm outline-none bg-black border-[1px] border-[#554994] focus:border-white"
+                className="rounded-sm outline-none bg-black px-[10px] py-[2px] border-[1px] border-[#554994] focus:border-white "
                 required
                 value={formData.event_date}
                 onChange={handleChange}
@@ -121,8 +121,8 @@ const EventForm: React.FC<EventFormProps> = (props) => {
           </div>
           <div>
             <textarea
-              className="w-full outline-nonep-3 rounded-md bg-black border-[1px] border-[#554994] focus:border-white"
-              placeholder="  description"
+              className="w-full outline-nonep-3 h-20 px-[10px] py-[3px] rounded-md bg-black border-[1px] border-[#554994] focus:border-white my-2"
+              placeholder="Description"
               name="description"
               onChange={handleChange}
             />
@@ -132,14 +132,14 @@ const EventForm: React.FC<EventFormProps> = (props) => {
               <p className="text-white mx-2">from</p>
               <input
                 type="time"
-                className="rounded-sm px-[.5px] bg-black border-[1px] border-[#554994] focus:border-white"
+                className="rounded-sm px-[1px] py-[1px] bg-black border-[1px] border-[#554994] focus:border-white"
                 name="select-time-1"
                 onChange={handleChange}
               />
               <p className="text-white mx-2">to</p>
               <input
                 type="time"
-                className="rounded-sm px-[.5px] bg-black border-[1px] border-[#554994] focus:border-white"
+                className="rounded-sm px-[1px] py-[1px] bg-black border-[1px] border-[#554994] focus:border-white"
                 name="select-time-2"
                 onChange={handleChange}
               />
@@ -147,7 +147,7 @@ const EventForm: React.FC<EventFormProps> = (props) => {
             {props.role === "ADMIN" ? (
               <div className="mx-2 h-5 flex items-center justify-center">
                 <select
-                  className="w-[6rem] h-7 px-2 outline-none rounded-sm bg-black border-[1px] border-[#554994] focus:border-white"
+                  className="w-[7.5rem] h-[2rem] px-[.5px] py-[2px] outline-none rounded-sm bg-black border-[1px] border-[#554994] focus:border-white mx-1"
                   onChange={handleChangeOption}
                   value={colorOption}
                 >
@@ -165,7 +165,7 @@ const EventForm: React.FC<EventFormProps> = (props) => {
             )}
             <div className="mr-5">
               <button
-                className="px-2 py-1 flex bg-slate-800 hover:bg-opacity-40 hover:bg-slate-400 duration-100 ease-in rounded-lg"
+                className="px-2 py-1 flex bg-slate-800 hover:bg-opacity-40 hover:bg-slate-400 duration-100 ease-in rounded-lg mx-2 border-[1px] border-slate-800 hover:border-white"
                 type="submit"
               >
                 <div className="m-auto text-white ">submit</div>

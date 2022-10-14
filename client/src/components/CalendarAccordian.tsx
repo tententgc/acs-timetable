@@ -149,7 +149,7 @@ const CalendarAccordian: React.FC<CalendarAccordianProps> = (props) => {
               </div>
             )}
           </div>
-          {show && <p className="text-white leading-7">{props.description}</p>}
+          {show && <p className="text-white leading-7 break-all text-justify" >{props.description}</p>}
         </div>
       </div>
       {openEditform ? (

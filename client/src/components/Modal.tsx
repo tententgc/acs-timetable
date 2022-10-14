@@ -55,7 +55,7 @@ const Modal: React.FC<ModalProps> = (props) => {
             )}
           </div>
           <div
-            className="absolute right-[-60px] top-0 w-10 h-10 bg-white rounded-full flex cursor-pointer hover:bg-black hover:text-white duration-300 ease-linear"
+            className="absolute right-[-60px] top-0 w-10 h-10 bg-[#2c2a45] rounded-full flex cursor-pointer border-[1px] border-[#2c2a45] hover:bg-black hover:border-white hover:text-white duration-300 ease-linear"
             onClick={() => (props.store.isOpenModal = !props.store.isOpenModal)}
           >
             <div className="m-auto">

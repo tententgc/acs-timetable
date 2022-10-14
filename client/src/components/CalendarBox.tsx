@@ -16,14 +16,15 @@ const CalendarBox: React.FC<CalendarBoxProps> = observer((props) => {
   };
 
   return (
+    <div className="h-[6rem] items-center w-[5.3rem] mx-[23px]">
     <div
-      className={`cursor-pointer p-[.5px] hover:p-0 duration-200 ease-in-out bg-gradient-to-r from-rose-400 via-fuchsia-500 to-indigo-500 w-[5.3rem] rounded-lg ${
+      className={`cursor-pointer p-[1px] hover:p-0 duration-200 ease-in-out bg-gradient-to-tl from-[#653581] via-indigo-300 to-indigo-500 w-[5.3rem] rounded-lg ${
         props.isShow ? "block" : "hidden"
       }`}
       onClick={handleClick}
     >
       <div
-        className={`h-20 rounded-lg overflow-scroll p-[2px] animate-boxOpen bg-[#2B1D36] ${
+        className={`h-20 rounded-lg overflow-scroll p-[2px] animate-boxOpen bg-[#261e3e] hover:bg-black hover:bg-opacity-10 ${
           new Date().getDate() === props.day &&
           new Date().getMonth() === props.store.currMonth &&
           new Date().getFullYear() === props.store.currYear
@@ -54,6 +55,7 @@ const CalendarBox: React.FC<CalendarBoxProps> = observer((props) => {
             : ""}
         </div>
       </div>
+    </div>
     </div>
   );
 });

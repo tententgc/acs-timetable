@@ -123,8 +123,8 @@ const Login: React.FC<{ store: AuthenStoreImpl }> = (props) => {
           <button
             className={`px-10 py-2 w-full h-full flex font-bold ${
               checkCaseObj({ ...formData })
-                ? "bg-[gray] text-gray-300 cursor-not-allowed"
-                : "bg-black text-white cursor-pointer"
+                ? "bg-[gray] text-gray-300 cursor-not-allowed "
+                : "bg-black text-white cursor-pointer border-[1px] border-[#554994] hover:border-white "
             } duration-150 ease-linear`}
             type="submit"
             onClick={handleSubmit}

@@ -197,7 +197,7 @@ const Register: React.FC<{ store: AuthenStoreImpl }> = (props) => {
             className={`px-10 py-2 w-full h-full flex font-bold ${
               checkCaseObj({ ...formData, ...checkBox })
                 ? "cursor-not-allowed  bg-[gray] text-gray-300"
-                : "bg-black text-white"
+                : "bg-black text-white border-[1px] border-[#554994] hover:border-white "
             } duration-150 ease-linear`}
             onClick={handleSubmit}
             // disabled={checkCaseObj({ ...formData, ...checkBox })}

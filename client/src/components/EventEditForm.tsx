@@ -92,7 +92,7 @@ const EventEditForm: React.FC<EventFormProps> = (props) => {
               <InputCustom
                 onChange={handleChange}
                 name="header"
-                placeholder="header"
+                placeholder="Header"
                 type="text"
                 value={formData.header}
                 maxLength={200}
@@ -118,8 +118,8 @@ const EventEditForm: React.FC<EventFormProps> = (props) => {
           </div>
           <div>
             <textarea
-              className="w-full outline-none p-3 rounded-md bg-black border-[1px] border-[#554994] focus:border-white"
-              placeholder="description"
+              className="w-full outline-none h-20 px-[10px] py-[3px] rounded-md bg-black border-[1px] border-[#554994] focus:border-white"
+              placeholder="Description"
               name="description"
               onChange={handleChange}
               value={formData.description}
@@ -144,7 +144,7 @@ const EventEditForm: React.FC<EventFormProps> = (props) => {
             </div>
             <div className="mr-5">
               <button
-                className="px-2 py-1 flex hover:bg-opacity-40 bg-slate-800 hover:bg-slate-400 duration-100 ease-in rounded-lg"
+                className="px-2 py-1 flex hover:bg-opacity-40 bg-slate-800 hover:bg-slate-400 duration-100 ease-in rounded-lg mx-[-20px] border-[1px] border-slate-800 hover:border-white"
                 type="submit"
               >
                 <div className="m-auto text-white">submit</div>
