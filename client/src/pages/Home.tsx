@@ -4,6 +4,7 @@ import Navbar from "../components/Navbar";
 import "../styles/Home.css";
 
 import { CalendarStore } from "../store/CalendarStore";
+import { AuthenStore } from "../store/AuthenStore";
 
 const Home: React.FC = () => {
   return (
@@ -14,7 +15,7 @@ const Home: React.FC = () => {
         <div className="starfourth"></div>
         <div className="starfifth"></div>
       </div>
-      <Navbar />
+      <Navbar store={AuthenStore} />
       <Calendar store={CalendarStore} />
     </div>
   );

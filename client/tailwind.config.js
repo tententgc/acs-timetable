@@ -26,10 +26,19 @@ module.exports = {
             opacity: 1,
           },
         },
+        spinAround: {
+          "0%": {
+            transform: "rotate(0deg)",
+          },
+          "100%": {
+            transform: "rotate(360deg)",
+          },
+        },
       },
       animation: {
         popup: "popup .25s ease 1",
         boxOpen: "boxOpen .25s ease 1",
+        spinAround: "spinAround 3s linear infinite",
       },
     },
   },
