@@ -4,10 +4,11 @@ import Login from "./Login";
 import Register from "./Register";
 import TabModal from "./TabModal";
 import { AiOutlineClose } from "react-icons/ai";
+import { AuthenStoreImpl } from "../store/AuthenStore";
 
 interface ModalProps {
-  handleIsOpen: () => void;
   isOpen: boolean;
+  store: AuthenStoreImpl;
 }
 
 const Modal: React.FC<ModalProps> = (props) => {
@@ -24,7 +25,7 @@ const Modal: React.FC<ModalProps> = (props) => {
 
   const handleClick = (e: React.MouseEvent) => {
     if (e.target === e.currentTarget) {
-      props.handleIsOpen();
+      props.store.isOpenModal = !props.store.isOpenModal;
     }
   };
 
@@ -47,11 +48,15 @@ const Modal: React.FC<ModalProps> = (props) => {
           <div className="ml-6 w-[370px]">
             <TabModal items={items} getTabItem={getTabItem} setTab={setTab} />
 
-            {tabItem === "Log in" ? <Login /> : <Register />}
+            {tabItem === "Log in" ? (
+              <Login store={props.store} />
+            ) : (
+              <Register store={props.store} />
+            )}
           </div>
           <div
             className="absolute right-[-60px] top-0 w-10 h-10 bg-white rounded-full flex cursor-pointer hover:bg-black hover:text-white duration-300 ease-linear"
-            onClick={() => props.handleIsOpen()}
+            onClick={() => (props.store.isOpenModal = !props.store.isOpenModal)}
           >
             <div className="m-auto">
               <AiOutlineClose />

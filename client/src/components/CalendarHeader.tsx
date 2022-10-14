@@ -11,7 +11,6 @@ interface CalendarHeaderProps {
 
 const CalendarHeader: React.FC<CalendarHeaderProps> = (props) => {
   const handleClick = (n: number) => {
-    // call fetch data ตรงนี้
     props.handleChangeMonth(n);
   };
 
