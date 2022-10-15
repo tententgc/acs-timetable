@@ -70,10 +70,8 @@ public class ColorController {
             return ResponseEntity.ok(res);
         }
 
-        colorDB.setColor_meaning(req.getColor_meaning());
-
         res.put("status", 200);
-        res.put("data", colorRepository.saveColorModel(colorDB.getHex_code(), colorDB.getColor_meaning(), colorDB.getCreate_at(), LocalDateTime.now()));
+        res.put("data", colorRepository.saveColorModel(req.getHex_code(), req.getColor_meaning(), colorDB.getCreate_at(), LocalDateTime.now()));
 
         return ResponseEntity.ok(res);
     }
