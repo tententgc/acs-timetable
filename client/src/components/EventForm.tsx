@@ -22,6 +22,7 @@ const formItem: formDataType = {
 
 const EventForm: React.FC<EventFormProps> = (props) => {
   const [formData, setFormData] = useState<formDataType>(formItem);
+
   const [timeRange, setTimeRange] = useState<{ t1: string; t2: string }>({
     t1: "",
     t2: "",
@@ -119,12 +120,14 @@ const EventForm: React.FC<EventFormProps> = (props) => {
               <FcCloseUpMode size={20} />
             </div>
           </div>
-          <div>
+          <div className="bg-white rounded-md p-2 max-h-[10rem]">
             <textarea
               className="w-full outline-none focus:border-[#554994] p-3 rounded-md"
               placeholder="description"
               name="description"
               onChange={handleChange}
+              spellCheck={false}
+              maxLength={255}
             />
           </div>
           <div className="mt-3 flex items-center justify-between">
