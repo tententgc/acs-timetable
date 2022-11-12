@@ -7,6 +7,7 @@ import CalendarModal from "./CalendarModal";
 
 interface CalendarProps {
   store: CalendarStoreImpl;
+  theme:boolean;
 }
 
 const Calendar: React.FC<CalendarProps> = observer((props) => {
@@ -45,14 +46,16 @@ const Calendar: React.FC<CalendarProps> = observer((props) => {
           currMonth={currMonth}
           handleChangeMonth={handleChangeMonth}
           store={props.store}
+          theme={props.theme}
         />
         <CalendarBody
           currYear={currYear}
           currMonth={currMonth}
           store={props.store}
+          
         />
       </div>
-      {props.store.modalOpen && <CalendarModal store={props.store} />}
+      {props.store.modalOpen && <CalendarModal store={props.store} theme={props.theme} />}
     </div>
   );
 });

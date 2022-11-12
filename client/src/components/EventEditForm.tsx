@@ -92,7 +92,7 @@ const EventEditForm: React.FC<EventFormProps> = (props) => {
               <InputCustom
                 onChange={handleChange}
                 name="header"
-                placeholder="Header"
+                placeholder="Topic"
                 type="text"
                 value={formData.header}
                 maxLength={200}
@@ -157,7 +157,7 @@ const EventEditForm: React.FC<EventFormProps> = (props) => {
         position="bottom-right"
         autoClose={1000}
         hideProgressBar={true}
-        theme="light"
+        theme="dark"
       />
     </div>
   );

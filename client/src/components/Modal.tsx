@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import photo from "../assets/sign-in-image.png";
+import photo from "../assets/sign-in-image2.png";
 import Login from "./Login";
 import Register from "./Register";
 import TabModal from "./TabModal";
@@ -38,7 +38,7 @@ const Modal: React.FC<ModalProps> = (props) => {
     >
       <div>
         <div
-          className={`fixed h-[630px] w-[840px] top-[calc(50%-630px/2)] left-[calc(50%-840px/2)] rounded-xl flex p-4 bg-[#2c2a45] bg-opacity-95 ${
+          className={`fixed h-[630px] w-[900px] top-[calc(50%-630px/2)] left-[calc(50%-840px/2)] rounded-xl flex p-4 bg-[#2c2a45] bg-opacity-95 dark:bg-[#917BBD]${
             props.isOpen ? "animate-popup" : ""
           }`}
         >

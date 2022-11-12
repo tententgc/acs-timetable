@@ -4,6 +4,7 @@ import ColorTheme from "./ColorTheme";
 import { observer } from "mobx-react";
 import { ColorResponse } from "../api/colorRouter";
 import { ColorStoreImpl } from "../store/ColorStore";
+import { Theme } from "react-toastify";
 
 interface CalendarColorThemeProps {
   store: CalendarStoreImpl;
@@ -24,7 +25,7 @@ const CalendarColorTheme: React.FC<CalendarColorThemeProps> = observer(
     }, [props.colorStore]);
 
     return (
-      <div className="absolute border-2 w-[10rem] top-[5%] left-[2%] rounded-lg shadow-xl py-2">
+      <div className="absolute border-2 w-[10rem] top-[5%] left-[2%] rounded-lg shadow-xl py-2 dark:border-[#3f3f3f]">
         <div className="flex flex-col gap-[1px] px-2">
           {colordata.map((item, index) => {
             // wait fetch data from backend color table
@@ -41,7 +42,7 @@ const CalendarColorTheme: React.FC<CalendarColorThemeProps> = observer(
             <div className="animate-popup">
               <ColorTheme
                 title="reset filter"
-                color="FFFFFF"
+                
                 store={props.store}
               />
             </div>

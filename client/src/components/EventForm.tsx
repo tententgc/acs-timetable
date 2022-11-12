@@ -95,7 +95,7 @@ const EventForm: React.FC<EventFormProps> = (props) => {
               <InputCustom
                 onChange={handleChange}
                 name="header"
-                placeholder="Header"
+                placeholder="Topic"
                 type="text"
                 value={formData.header}
                 maxLength={200}

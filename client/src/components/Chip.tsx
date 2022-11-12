@@ -11,7 +11,7 @@ const Chip: React.FC<ChipProps> = (props) => {
       className={`px-2 py-[0.5px] flex rounded-xl w-fit`}
       style={{ backgroundColor: `#${props.color}` }}
     >
-      <p className="m-auto text-[10px] font-mono">{props.title}</p>
+      <p className="text-[black] m-auto text-[11px] font-mono">{props.title}</p>
     </div>
   );
 };

@@ -44,7 +44,7 @@ const Drawer: React.FC<{ role: string; username: string }> = (props) => {
         <div className="menu-button">
           <button
             onClick={() => setOpenDrawer(true)}
-            className="hover:bg-white p-1 rounded-full hover:bg-opacity-10 backdrop-blur-sm duration-100 ease-linear"
+            className="hover:bg-white p-1 rounded-full hover:bg-opacity-10 backdrop-blur-sm duration-100 ease-linear dark:hover:bg-white"
           >
             <FcMenu size={35} />
           </button>
@@ -60,7 +60,7 @@ const Drawer: React.FC<{ role: string; username: string }> = (props) => {
       ></div>
       <div
         className={`bg-[#181828] w-[20vw] fixed top-0 right-0 h-[100vh] border-l-[1px] rounded-lg ${
-          openDrawer ? "translate-x-0" : "translate-x-[20rem]"
+          openDrawer ? "translate-x-0" : "translate-x-[20vw]"
         } duration-200 ease-in-out z-[1002]`}
       >
         <div className="relative">

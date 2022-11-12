@@ -1,4 +1,5 @@
 import React from "react";
+import { Interface } from "readline";
 import { monthList } from "../config/data";
 import { CalendarStoreImpl } from "../store/CalendarStore";
 
@@ -7,7 +8,9 @@ interface CalendarHeaderProps {
   currMonth: number;
   handleChangeMonth: (n: number) => void;
   store: CalendarStoreImpl;
+  theme:boolean;
 }
+
 
 const CalendarHeader: React.FC<CalendarHeaderProps> = (props) => {
   const handleClick = (n: number) => {
@@ -17,15 +20,15 @@ const CalendarHeader: React.FC<CalendarHeaderProps> = (props) => {
   return (
     <div>
       <div className="flex items-center justify-center">
-      <div className="flex w-[60rem] items-center justify-around px-5 py-2 rounded-3xl bg-[#2c2a45]">
+      <div className="flex w-[60rem] items-center justify-around px-5 py-2 rounded-3xl bg-[#2c2a45] dark:bg-[#a1d3fc] duration-1000 dark:bg-opacity-40 dark:text-[#617c8b]">
         <div>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
             strokeWidth={1.5}
-            stroke="currentColor"
-            className="w-10 h-10 cursor-pointer rounded-full  hover:bg-[#413e65] hover:text-white duration-200 ease-linear"
+            stroke={`${props.theme?"currentColor":"#3f3f3f"}`}
+            className="w-10 h-10 cursor-pointer rounded-full hover:bg-[#413e65] dark:hover:bg-white duration-1000 ease-linear "
             onClick={() => handleClick(-1)}
           >
             <path
@@ -36,7 +39,7 @@ const CalendarHeader: React.FC<CalendarHeaderProps> = (props) => {
           </svg>
         </div>
         <div className="text-center">
-          <p className="text-5xl capitalize text-white w-[30rem]">
+          <p className="text-5xl capitalize text-white w-[30rem] dark:text-[#3f3f3f]">
             {monthList[props.currMonth]} {props.currYear}
           </p>
         </div>
@@ -46,8 +49,8 @@ const CalendarHeader: React.FC<CalendarHeaderProps> = (props) => {
             fill="none"
             viewBox="0 0 24 24"
             strokeWidth={1.5}
-            stroke="currentColor"
-            className="w-10 h-10 cursor-pointer rounded-full  hover:bg-[#413e65] duration-200 ease-linear"
+            stroke={`${props.theme?"currentColor":"#3f3f3f"}`}
+            className="w-10 h-10 cursor-pointer rounded-full hover:bg-[#413e65] dark:hover:bg-white duration-1000 ease-linear "
             onClick={() => handleClick(1)}
           >
             <path
