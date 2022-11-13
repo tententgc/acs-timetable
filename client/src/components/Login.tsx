@@ -20,7 +20,7 @@ interface awaitButtonType {
 
 const formDefaultItem: formDataType = { email: "", password: "" };
 
-const Login: React.FC<{ store: AuthenStoreImpl }> = (props) => {
+const Login: React.FC<{ store: AuthenStoreImpl; theme:boolean; }> = (props) => {
   const [formData, setFormData] = useState<formDataType>(formDefaultItem);
   const [isShowPass, setIsShowPass] = useState<Boolean>(false);
   const [errors, setErrors] = useState<formDataType>(formDefaultItem);
@@ -55,7 +55,7 @@ const Login: React.FC<{ store: AuthenStoreImpl }> = (props) => {
 
       if (res !== 200) {
         setAwaitButton({
-          animate: <FcCloseUpMode color="white" />,
+          animate: <FcCloseUpMode color={props.theme?"white":"black"} />,
           onLoad: true,
         });
         setErrors({
@@ -72,16 +72,16 @@ const Login: React.FC<{ store: AuthenStoreImpl }> = (props) => {
 
   return (
     <div className="flex flex-col">
-      <h1 className="text-[27px] font-bold my-7 text-white">Log in to your account</h1>
+      <h1 className="text-[27px] font-bold my-7 text-white dark:text-black">Log in to your account</h1>
       <div className="flex flex-row justify-between">
-        <span className="px-5 py-2 rounded-sm bg-slate-300">?</span>
-        <span className="px-5 py-2 rounded-sm bg-slate-300">?</span>
-        <span className="px-5 py-2 rounded-sm bg-slate-300">?</span>
-        <span className="px-5 py-2 rounded-sm bg-slate-300">?</span>
-        <span className="px-5 py-2 rounded-sm bg-slate-300">?</span>
+        <span className="px-5 py-2 rounded-sm bg-slate-300 dark:bg-slate-600">?</span>
+        <span className="px-5 py-2 rounded-sm bg-slate-300 dark:bg-slate-600">?</span>
+        <span className="px-5 py-2 rounded-sm bg-slate-300 dark:bg-slate-600">?</span>
+        <span className="px-5 py-2 rounded-sm bg-slate-300 dark:bg-slate-600">?</span>
+        <span className="px-5 py-2 rounded-sm bg-slate-300 dark:bg-slate-600">?</span>
       </div>
-      <div className="my-5 text-white">
-        <p>Or log in with an email</p>
+      <div className="my-5">
+        <p className="text-white dark:text-black">Or log in with an email</p>
       </div>
       <form onSubmit={handleSubmit}>
         <div className="flex flex-col gap-5 relative">
@@ -107,14 +107,14 @@ const Login: React.FC<{ store: AuthenStoreImpl }> = (props) => {
             {isShowPass ? (
               <FiEyeOff
                 onClick={() => setIsShowPass(!isShowPass)}
-                className="absolute right-1 top-2 cursor-pointer"
-                color="gray"
+                className="absolute right-1 top-2 cursor-pointer dark:stroke-black"
+                color={props.theme?"gray":"black"}
               />
             ) : (
               <FiEye
                 onClick={() => setIsShowPass(!isShowPass)}
-                className="absolute right-1 top-2 cursor-pointer"
-                color="gray"
+                className="absolute right-1 top-2 cursor-pointer dark:stroke-black"
+                color={props.theme?"gray":"black"}
               />
             )}
           </div>
@@ -123,8 +123,8 @@ const Login: React.FC<{ store: AuthenStoreImpl }> = (props) => {
           <button
             className={`px-10 py-2 w-full h-full flex font-bold ${
               checkCaseObj({ ...formData })
-                ? "bg-[gray] text-gray-300 cursor-not-allowed "
-                : "bg-black text-white cursor-pointer border-[1px] border-[#554994] hover:border-white "
+                ? "bg-[gray] text-gray-300 cursor-not-allowed dark:bg-gray-300"
+                : "bg-black text-white cursor-pointer border-[1px] border-[#554994] hover:border-white dark:bg-white dark:border-[#7696ff] dark:hover:border-[black]"
             } duration-150 ease-linear`}
             type="submit"
             onClick={handleSubmit}
@@ -133,7 +133,7 @@ const Login: React.FC<{ store: AuthenStoreImpl }> = (props) => {
             {awaitButton.onLoad ? (
               <div className="m-auto h-5">{awaitButton.animate}</div>
             ) : (
-              <div className="m-auto h-5">Login</div>
+              <div className="m-auto h-5 dark:text-black">Login</div>
             )}
           </button>
         </div>

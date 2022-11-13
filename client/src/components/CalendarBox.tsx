@@ -24,11 +24,11 @@ const CalendarBox: React.FC<CalendarBoxProps> = observer((props) => {
       onClick={handleClick}
     >
       <div
-        className={`h-20 rounded-lg overflow-scroll p-[2px] animate-boxOpen bg-[#261e3e] hover:bg-black hover:bg-opacity-10 dark:bg-white dark:bg-opacity-80 dark:hover:bg-gradient-to-tl dark:hover:from-[#c0d8eb] dark:hover:via-[#e9fcff] dark:hover:to-[#cfe9ff] dark:text-black ease-in duration-200 ${
+        className={`h-20 rounded-lg overflow-scroll p-[2px] animate-boxOpen bg-[#261e3e] hover:bg-black hover:bg-opacity-10 dark:bg-white dark:bg-opacity- dark:hover:bg-gradient-to-tl dark:hover:from-[#c0d8eb] dark:hover:via-[#e9fcff] dark:hover:to-[#cfe9ff] dark:text-black ease-in duration-200 ${
           new Date().getDate() === props.day &&
           new Date().getMonth() === props.store.currMonth &&
           new Date().getFullYear() === props.store.currYear
-            ? "bg-opacity-50 dark:bg-opacity-50"
+            ? "bg-opacity-50 dark:bg-opacity-50 dark:bg-gradient-to-tl dark:from-[#d4e5f3] dark:via-[#eaf7f8] dark:to-[#d6e8fa]"
             : ""
         }`}
       >

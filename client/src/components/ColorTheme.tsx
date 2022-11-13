@@ -15,7 +15,7 @@ const ColorTheme: React.FC<ColorThemeProps> = observer((props) => {
 
   return (
     <span
-      className={`flex gap-3 items-center cursor-pointer hover:bg-slate-400 px-[5px] py-[2px] rounded-xl duration-100 ease-linear dark:bg-gradient-to-tl dark:hover:from-[#EBC5DA] dark:hover:to-[#99BAF6] dark:duration-100 ${
+      className={`flex gap-3 items-center cursor-pointer hover:bg-slate-400 px-[5px] py-[2px] rounded-xl duration-100 ease-linear dark:hover:bg-blue-300 dark:duration-100 ${
         props.store.colorFilter.includes(props.color as string)
           ? "bg-black bg-opacity-50 dark:bg-blue-300 dark:bg-opacity-40"
           : ""

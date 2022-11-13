@@ -5,7 +5,6 @@ import Modal from "./Modal";
 import { AuthenStore, AuthenStoreImpl } from "../store/AuthenStore";
 import { observer } from "mobx-react";
 import Drawer from "./Drawer";
-import { MdDarkMode } from "react-icons/md";
 
 const Navbar: React.FC<{ store: AuthenStoreImpl; handleChangeTheme:()=>void; theme:boolean}> = observer((props) => {
   const [isAuthen, setIsAuthen] = useState<boolean>(false);
@@ -39,7 +38,7 @@ const Navbar: React.FC<{ store: AuthenStoreImpl; handleChangeTheme:()=>void; the
 
             <div className="">
               <p className={`bg-[#464675] duration-500 ease-linear absolute right-[16%] top-[4.8%] px-2 py-2 
-              rounded-[100%] cursor-pointer hover:px-1 hover:py-1 hover:right-[16.2%] hover:top-[5.2%] bg-opacity-30 hover:bg-[#554994] dark:bg-[#94bddf] dark:bg-opacity-30 dark:bg-gradient-to-tl dark:hover:from-[#EBC5DA] dark:hover:to-[#99BAF6] dark:duration-500 dark:text-black`}
+              rounded-[100%] cursor-pointer hover:px-1 hover:py-1 hover:right-[16.2%] hover:top-[5.2%] bg-opacity-30 hover:bg-[#554994] dark:bg-blue-300 dark:bg-opacity-30 dark:bg-gradient-to-tl dark:hover:from-[#EBC5DA] dark:hover:to-[#99BAF6] dark:duration-500 dark:text-black`}
               onClick={props.handleChangeTheme}
               >
                 {props.theme ? "🌚":"🌝"}
@@ -52,7 +51,7 @@ const Navbar: React.FC<{ store: AuthenStoreImpl; handleChangeTheme:()=>void; the
               <div className="hidden justify-between items-center w-full md:flex md:w-auto md:order-1">
                 <div className="flex flex-col p-4 mt-4 rounded-lg border md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 ">
                   <p
-                    className="text-white hover:bg-slate-200 duration-500 ease-linear hover:text-black hover:underline px-3 py-2 rounded-md text-base font-medium cursor-pointer dark:bg-gradient-to-tl dark:hover:from-[#EBC5DA] dark:hover:to-[#99BAF6] dark:duration-500 dark:hover:text-white dark:text-black"
+                    className="text-white hover:bg-slate-200 duration-500 ease-linear hover:underline px-3 py-2 rounded-md text-base font-medium cursor-pointer dark:hover:bg-blue-300 dark:hover:bg-opacity-60 dark:text-black"
                     onClick={() =>
                       (props.store.isOpenModal = !props.store.isOpenModal)
                     }
@@ -69,7 +68,7 @@ const Navbar: React.FC<{ store: AuthenStoreImpl; handleChangeTheme:()=>void; the
       {isAuthen ? (
         ""
       ) : (
-        <Modal isOpen={props.store.isOpenModal} store={AuthenStore} />
+        <Modal isOpen={props.store.isOpenModal} store={AuthenStore} theme={props.theme}/>
       )}
     </div>
   );

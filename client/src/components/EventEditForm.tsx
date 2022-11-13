@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import InputCustom from "./InputCustom";
-import { FcCloseUpMode } from "react-icons/fc";
+import { FiX } from "react-icons/fi";
 import { CalendarStoreImpl } from "../store/CalendarStore";
 import { putEvent, PutEventRequest } from "../api/eventRouter";
 import { ToastContainer, toast } from "react-toastify";
@@ -10,6 +10,7 @@ interface EventFormType {
   open: boolean;
   handleClose: () => void;
   store: CalendarStoreImpl;
+  theme:boolean;
 }
 
 type EventFormProps = PutEventRequest & EventFormType;
@@ -26,6 +27,7 @@ const EventEditForm: React.FC<EventFormProps> = (props) => {
     description: props.description,
     time_range: props.time_range,
     event_date: props.event_date,
+    theme:props.theme,
   });
   const [timeRange, setTimeRange] = useState<{ t1: string; t2: string }>({
     t1: "",
@@ -84,7 +86,7 @@ const EventEditForm: React.FC<EventFormProps> = (props) => {
         onClick={handleClick}
       >
         <form
-          className="w-[30rem] min-h-[10rem] bg-slate-700 rounded-lg p-5"
+          className="w-[30rem] min-h-[10rem] bg-slate-700 rounded-lg p-5 dark:bg-blue-200"
           onSubmit={handleSubmit}
         >
           <div className="flex justify-between items-center my-2">
@@ -103,22 +105,24 @@ const EventEditForm: React.FC<EventFormProps> = (props) => {
               <input
                 type="date"
                 name="event_date"
-                className="rounded-sm outline-none p-[2px] bg-black border-[1px] border-[#554994] focus:border-white"
+                className={`rounded-sm outline-none p-[2px] bg-black border-[1px] border-[#554994] focus:border-white
+                            dark:bg-white dark:text-black dark:border-[#7696ff] dark:focus:border-black`}
                 required
                 value={formData.event_date}
                 onChange={handleChange}
               />
             </div>
             <div
-              className="p-2 hover:bg-white hover:bg-opacity-30 ease-in duration-100 rounded-full"
+              className={`p-2 hover:bg-white hover:bg-opacity-30 ease-in duration-100 rounded-full`}
               onClick={() => props.handleClose()}
             >
-              <FcCloseUpMode size={20} />
+              <FiX size={20} className="dark:stroke-black" />
             </div>
           </div>
           <div>
             <textarea
-              className="w-full outline-none h-20 px-[10px] py-[3px] rounded-md bg-black border-[1px] border-[#554994] focus:border-white"
+              className={`w-full outline-none h-20 px-[10px] py-[3px] rounded-md bg-black border-[1px] border-[#554994] focus:border-white
+                          dark:bg-white dark:text-black dark:border-[#7696ff] dark:focus:border-black`}
               placeholder="Description"
               name="description"
               onChange={handleChange}
@@ -130,24 +134,27 @@ const EventEditForm: React.FC<EventFormProps> = (props) => {
               <p className="text-white mx-2">from</p>
               <input
                 type="time"
-                className="rounded-sm px-[.5px] bg-black border-[1px] border-[#554994] focus:border-white"
+                className={`rounded-sm px-[.5px] bg-black border-[1px] border-[#554994] focus:border-white outline-none
+                          dark:bg-white dark:text-black dark:border-[#7696ff] dark:focus:border-black`}
                 name="select-time-1"
                 onChange={handleChange}
               />
               <p className="text-white mx-2">to</p>
               <input
                 type="time"
-                className="rounded-sm px-[.5px] bg-black border-[1px] border-[#554994] focus:border-white"
+                className={`rounded-sm px-[.5px] bg-black border-[1px] border-[#554994] focus:border-white outline-none
+                          dark:bg-white dark:text-black dark:border-[#7696ff] dark:focus:border-black`}
                 name="select-time-2"
                 onChange={handleChange}
               />
             </div>
             <div className="mr-5">
               <button
-                className="px-2 py-1 flex hover:bg-opacity-40 bg-slate-800 hover:bg-slate-400 duration-100 ease-in rounded-lg mx-[-20px] border-[1px] border-slate-800 hover:border-white"
+                className={`px-2 py-1 flex hover:bg-opacity-40 bg-slate-800 hover:bg-slate-400 duration-100 ease-in rounded-lg mx-[-20px] border-[1px] border-slate-800 hover:border-white
+                          dark:bg-[#7fb1fc] dark:border-blue-300 dark:text-black dark:hover:bg-blue-500 dark:hover:border-blue-800`}
                 type="submit"
               >
-                <div className="m-auto text-white">submit</div>
+                <div className="m-auto text-white dark:text-black">submit</div>
               </button>
             </div>
           </div>
@@ -157,7 +164,7 @@ const EventEditForm: React.FC<EventFormProps> = (props) => {
         position="bottom-right"
         autoClose={1000}
         hideProgressBar={true}
-        theme="dark"
+        theme={props.theme?"dark":"light"}
       />
     </div>
   );

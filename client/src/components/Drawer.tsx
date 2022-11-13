@@ -3,10 +3,10 @@ import {
   FcMenu,
   FcSettings,
   FcAddDatabase,
-  FcCloseUpMode,
   FcRadarPlot,
   FcCapacitor,
 } from "react-icons/fc";
+import {FiChevronRight} from "react-icons/fi"
 import EventForm from "./EventForm";
 import { CalendarStore } from "../store/CalendarStore";
 import { ColorStore } from "../store/ColorStore";
@@ -44,7 +44,7 @@ const Drawer: React.FC<{ role: string; username: string }> = (props) => {
         <div className="menu-button">
           <button
             onClick={() => setOpenDrawer(true)}
-            className="hover:bg-white p-1 rounded-full hover:bg-opacity-10 backdrop-blur-sm duration-100 ease-linear dark:hover:bg-white"
+            className="hover:bg-white p-1 rounded-full hover:bg-opacity-10 backdrop-blur-sm duration-100 ease-linear"
           >
             <FcMenu size={35} />
           </button>
@@ -59,17 +59,17 @@ const Drawer: React.FC<{ role: string; username: string }> = (props) => {
         onClick={handleClick}
       ></div>
       <div
-        className={`bg-[#181828] w-[20vw] fixed top-0 right-0 h-[100vh] border-l-[1px] rounded-lg ${
+        className={`bg-[#181828] w-[20vw] fixed top-0 right-0 h-[100vh] border-l-[1px] rounded-lg dark:bg-blue-200 dark:border-black ${
           openDrawer ? "translate-x-0" : "translate-x-[20vw]"
         } duration-200 ease-in-out z-[1002]`}
       >
         <div className="relative">
           <div className="absolute p-2">
             <button
-              className="hover:bg-slate-400 bg-opacity-10 ease-in duration-100 rounded-xl"
+              className="bg-opacity-10 ease-in duration-100 rounded-xl hover:mx-1"
               onClick={() => setOpenDrawer(false)}
             >
-              <FcCloseUpMode size={20} />
+              <FiChevronRight size={30} className="dark:stroke-black" />
             </button>
           </div>
           <div className="flex items-center justify-center gap-3 m-5">
@@ -79,43 +79,43 @@ const Drawer: React.FC<{ role: string; username: string }> = (props) => {
                 className="animate-[spin_10s_linear_infinite]"
               />
             </div>
-            <p className="text-white text-xl">{props.username}</p>
+            <p className="text-white text-xl dark:text-black">{props.username}</p>
           </div>
           <div className="list-drawer mt-6">
             {props.role === "ADMIN" ? (
               <div
-                className="my-2 px-5 py-2 hover:bg-slate-400 ease-in duration-100 cursor-pointer hover:bg-opacity-50"
+                className="my-2 px-5 py-2 hover:bg-slate-400 ease-in duration-100 cursor-pointer hover:bg-opacity-50 dark:hover:bg-blue-300"
                 onClick={() => handleSignOut("Create Event")}
               >
                 <div className="flex gap-4 items-center ">
                   <div>
                     <FcRadarPlot size={25} />
                   </div>
-                  <p className="text-white">Add Admin Event</p>
+                  <p className="text-white dark:text-black">Add Admin Event</p>
                 </div>
               </div>
             ) : (
               <div
-                className="my-2 px-5 py-2 hover:bg-slate-400 ease-in duration-100 cursor-pointer hover:bg-opacity-50"
+                className="my-2 px-5 py-2 hover:bg-slate-400 ease-in duration-100 cursor-pointer hover:bg-opacity-50 dark:hover:bg-blue-300"
                 onClick={() => handleSignOut("Create Event")}
               >
                 <div className="flex gap-4 items-center ">
                   <div>
                     <FcAddDatabase size={25} />
                   </div>
-                  <p className="text-white">Create Event</p>
+                  <p className="text-white dark:text-black">Create Event</p>
                 </div>
               </div>
             )}
             <div
-              className="my-2 px-5 py-2 hover:bg-slate-400 ease-in duration-100 cursor-pointer hover:bg-opacity-50"
+              className="my-2 px-5 py-2 hover:bg-slate-400 ease-in duration-100 cursor-pointer hover:bg-opacity-50 dark:hover:bg-blue-300"
               onClick={() => handleSignOut("Sign Out")}
             >
               <div className="flex gap-4 items-center ">
                 <div>
                   <FcCapacitor size={25} />
                 </div>
-                <p className="text-white">Sign Out</p>
+                <p className="text-white dark:text-black">Sign Out</p>
               </div>
             </div>
           </div>

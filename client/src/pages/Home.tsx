@@ -13,7 +13,7 @@ const Home: React.FC = () => {
   const handleChangeTheme = () => {setTheme(!theme)}
   return (
     <div className={`${theme ? "light":"dark"}`}>
-      <div className={`min-h-screen bg-[#181828] dark:bg-[#c6d5ee] duration-1000`}>
+      <div className={`min-h-screen bg-[#181828] dark:bg-[#d6dfee] duration-1000`}>
         <div>
           <div className={`${theme ? "starsec" : "starsecdark"}`}></div>
           <div className={`${theme ? "starthird" : "starthriddark"}`}></div>
