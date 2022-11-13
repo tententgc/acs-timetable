@@ -4,7 +4,6 @@ import ColorTheme from "./ColorTheme";
 import { observer } from "mobx-react";
 import { ColorResponse } from "../api/colorRouter";
 import { ColorStoreImpl } from "../store/ColorStore";
-import { Theme } from "react-toastify";
 
 interface CalendarColorThemeProps {
   store: CalendarStoreImpl;
