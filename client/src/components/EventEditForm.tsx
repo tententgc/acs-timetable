@@ -101,7 +101,7 @@ const EventEditForm: React.FC<EventFormProps> = (props) => {
                 required={true}
               />
             </div>
-            <div>
+            <div className={`${props.theme?"handledark":"handlelight"}`}>
               <input
                 type="date"
                 name="event_date"
@@ -130,8 +130,8 @@ const EventEditForm: React.FC<EventFormProps> = (props) => {
             />
           </div>
           <div className="mt-3 flex items-center justify-between">
-            <div className="flex">
-              <p className="text-white mx-2">from</p>
+            <div className={`flex ${props.theme?"handledark":"handlelight"}`}>
+              <p className="text-white mx-2 dark:text-black">from</p>
               <input
                 type="time"
                 className={`rounded-sm px-[.5px] bg-black border-[1px] border-[#554994] focus:border-white outline-none
@@ -139,7 +139,7 @@ const EventEditForm: React.FC<EventFormProps> = (props) => {
                 name="select-time-1"
                 onChange={handleChange}
               />
-              <p className="text-white mx-2">to</p>
+              <p className="text-white mx-2 dark:text-black">to</p>
               <input
                 type="time"
                 className={`rounded-sm px-[.5px] bg-black border-[1px] border-[#554994] focus:border-white outline-none

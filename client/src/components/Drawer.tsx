@@ -11,7 +11,7 @@ import EventForm from "./EventForm";
 import { CalendarStore } from "../store/CalendarStore";
 import { ColorStore } from "../store/ColorStore";
 
-const Drawer: React.FC<{ role: string; username: string }> = (props) => {
+const Drawer: React.FC<{ role: string; username: string; theme: boolean }> = (props) => {
   const [openDrawer, setOpenDrawer] = useState<boolean>(false);
   const [openList, setOpenList] = useState<{ form: boolean }>({ form: false });
 
@@ -128,6 +128,7 @@ const Drawer: React.FC<{ role: string; username: string }> = (props) => {
           open={openList.form}
           store={CalendarStore}
           colorStore={ColorStore}
+          theme={props.theme}
         />
       ) : (
         ""
