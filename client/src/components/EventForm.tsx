@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import InputCustom from "./InputCustom";
-import { FcCloseUpMode } from "react-icons/fc";
+import { FiX } from "react-icons/fi";
 import { addLocalEvent, formDataType } from "../api/eventRouter";
 import { CalendarStoreImpl } from "../store/CalendarStore";
 import { ColorStoreImpl } from "../store/ColorStore";
@@ -11,6 +11,7 @@ interface EventFormProps {
   store: CalendarStoreImpl;
   role: string;
   colorStore: ColorStoreImpl;
+  theme: boolean;
 }
 
 const formItem: formDataType = {
@@ -87,7 +88,7 @@ const EventForm: React.FC<EventFormProps> = (props) => {
         onClick={handleClick}
       >
         <form
-          className="w-[30rem] min-h-[10rem] bg-slate-700 rounded-lg p-5"
+          className="w-[35rem] min-h-[13rem] bg-slate-700 rounded-lg p-5 dark:bg-blue-200"
           onSubmit={handleSubmit}
         >
           <div className="flex justify-between items-center my-2">
@@ -95,18 +96,19 @@ const EventForm: React.FC<EventFormProps> = (props) => {
               <InputCustom
                 onChange={handleChange}
                 name="header"
-                placeholder="header"
+                placeholder="Topic"
                 type="text"
                 value={formData.header}
                 maxLength={200}
                 required={true}
               />
             </div>
-            <div>
+            <div className={`${props.theme ? "handledark" : "handlelight"}`}>
               <input
                 type="date"
                 name="event_date"
-                className="rounded-sm outline-none p-[2px]"
+                className={`rounded-sm outline-none bg-black px-[10px] py-[2px] border-[1px] border-[#554994] focus:border-white 
+                            dark:bg-white dark:border-[#7696ff] dark:focus:border-black dark:text-black`}
                 required
                 value={formData.event_date}
                 onChange={handleChange}
@@ -116,30 +118,35 @@ const EventForm: React.FC<EventFormProps> = (props) => {
               className="p-2 hover:bg-white hover:bg-opacity-30 ease-in duration-100 rounded-full"
               onClick={() => props.handleList()}
             >
-              <FcCloseUpMode size={20} />
+              <FiX size={15} className="dark:stroke-black" />
             </div>
           </div>
           <div>
             <textarea
-              className="w-full outline-none focus:border-[#554994] p-3 rounded-md"
-              placeholder="description"
+              className={`w-full outline-nonep-3 h-20 px-[10px] py-[3px] rounded-md bg-black border-[1px] border-[#554994] focus:border-white my-2 outline-none
+                          dark:bg-white dark:border-[#7696ff] dark:focus:border-black dark:text-black`}
+              placeholder="Description"
               name="description"
               onChange={handleChange}
             />
           </div>
           <div className="mt-3 flex items-center justify-between">
-            <div className="flex">
-              <p className="text-white mx-2">from</p>
+            <div
+              className={`flex ${props.theme ? "handledark" : "handlelight"}`}
+            >
+              <p className="text-white mx-2 dark:text-black">from</p>
               <input
                 type="time"
-                className="rounded-sm px-[.5px]"
+                className={`rounded-sm px-[1px] py-[1px] bg-black border-[1px] border-[#554994] focus:border-white outline-none
+                          dark:bg-white dark:border-[#7696ff] dark:focus:border-black dark:text-black`}
                 name="select-time-1"
                 onChange={handleChange}
               />
-              <p className="text-white mx-2">to</p>
+              <p className="text-white mx-2 dark:text-black">to</p>
               <input
                 type="time"
-                className="rounded-sm px-[.5px]"
+                className={`rounded-sm px-[1px] py-[1px] bg-black border-[1px] border-[#554994] focus:border-white outline-none
+                          dark:bg-white dark:border-[#7696ff] dark:focus:border-black dark:text-black`}
                 name="select-time-2"
                 onChange={handleChange}
               />
@@ -147,13 +154,18 @@ const EventForm: React.FC<EventFormProps> = (props) => {
             {props.role === "ADMIN" ? (
               <div className="mx-2 h-5 flex items-center justify-center">
                 <select
-                  className="w-[6rem] h-6 px-2 outline-none rounded-sm"
+                  className={`w-[7.5rem] h-[2rem] px-[.5px] py-[2px] outline-none rounded-sm bg-black border-[1px] border-[#554994] focus:border-white mx-1
+                            dark:bg-white dark:border-[#7696ff] dark:focus:border-black dark:text-black`}
                   onChange={handleChangeOption}
                   value={colorOption}
                 >
                   {props.colorStore.adminSelect.map((item) => {
                     return (
-                      <option value={item.hex_code} key={Math.random()}>
+                      <option
+                        className="dark:text-black"
+                        value={item.hex_code}
+                        key={Math.random()}
+                      >
                         {item.color_meaning}
                       </option>
                     );
@@ -165,10 +177,11 @@ const EventForm: React.FC<EventFormProps> = (props) => {
             )}
             <div className="mr-5">
               <button
-                className="px-2 py-1 flex hover:bg-opacity-40 hover:bg-slate-400 duration-100 ease-in rounded-lg"
+                className={`px-2 py-1 flex bg-slate-800 hover:bg-opacity-40 hover:bg-slate-400 duration-100 ease-in rounded-lg mx-2 border-[1px] border-slate-800 hover:border-white
+                        dark:bg-[#7fb1fc] dark:border-blue-300 dark:text-black dark:hover:bg-blue-500 dark:hover:border-blue-800`}
                 type="submit"
               >
-                <div className="m-auto text-white">submit</div>
+                <div className="m-auto text-white dark:text-black">submit</div>
               </button>
             </div>
           </div>

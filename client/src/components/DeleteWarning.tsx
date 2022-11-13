@@ -17,16 +17,19 @@ const DeleteWarning: React.FC<DeleteWarningProps> = (props) => {
         props.open ? "block" : "hidden"
       } z-10`}
     >
-      <div className="w-[40vw] h-[20vh] bg-[#181828] rounded-xl animate-popup border-[1px] p-5">
+      <div
+        className={`w-[35vw] h-[17vh] bg-[#181828] rounded-xl animate-popup border-[1px] p-5 flex flex-col items-center justify-center 
+                    dark:bg-blue-200 dark:border-black`}
+      >
         <div>
-          <p className="text-white text-2xl text-center">
+          <p className="text-white text-2xl text-center dark:text-black font-bold">
             Are you sure to delete this event ?
           </p>
         </div>
         <div className="flex justify-center items-center gap-10 mt-5">
           <div>
             <button
-              className="text-red-600 px-5 py-2 hover:bg-red-500 hover:text-white  duration-100 ease-in rounded-sm border-red-500 border-[1px]"
+              className="text-red-600 w-[70px] px-5 py-2 hover:bg-red-500 hover:text-white  duration-100 ease-in rounded-full border-red-500 border-[2px] font-bold "
               onClick={handleClick}
             >
               Yes
@@ -34,7 +37,7 @@ const DeleteWarning: React.FC<DeleteWarningProps> = (props) => {
           </div>
           <div>
             <button
-              className="text-white px-5 py-2 hover:bg-white hover:text-black duration-100 ease-in rounded-sm border-white border-[1px]"
+              className="text-white w-[70px] px-5 py-2 hover:bg-white hover:text-black duration-100 ease-in rounded-full border-white border-[2px] font-bold"
               onClick={handleClick}
             >
               No

@@ -27,7 +27,9 @@ interface awaitButtonType {
 
 const formDefaultItem: formDataType = { username: "", email: "", password: "" };
 
-const Register: React.FC<{ store: AuthenStoreImpl }> = (props) => {
+const Register: React.FC<{ store: AuthenStoreImpl; theme: boolean }> = (
+  props
+) => {
   const [isShowPass, setIsShowPass] = useState<boolean>(false);
   const [formData, setFormData] = useState<formDataType>(formDefaultItem);
   const [errors, setErrors] = useState<formDataType>(formDefaultItem);
@@ -91,16 +93,28 @@ const Register: React.FC<{ store: AuthenStoreImpl }> = (props) => {
 
   return (
     <div className="flex flex-col">
-      <h1 className="text-[27px] font-bold my-7">Create account</h1>
+      <h1 className="text-[27px] font-bold my-7 dark:text-black">
+        Create account
+      </h1>
       <div className="flex flex-row justify-between">
-        <span className="px-5 py-2 rounded-sm bg-slate-300">?</span>
-        <span className="px-5 py-2 rounded-sm bg-slate-300">?</span>
-        <span className="px-5 py-2 rounded-sm bg-slate-300">?</span>
-        <span className="px-5 py-2 rounded-sm bg-slate-300">?</span>
-        <span className="px-5 py-2 rounded-sm bg-slate-300">?</span>
+        <span className="px-5 py-2 rounded-sm bg-slate-300 dark:bg-slate-600">
+          ?
+        </span>
+        <span className="px-5 py-2 rounded-sm bg-slate-300 dark:bg-slate-600">
+          ?
+        </span>
+        <span className="px-5 py-2 rounded-sm bg-slate-300 dark:bg-slate-600">
+          ?
+        </span>
+        <span className="px-5 py-2 rounded-sm bg-slate-300 dark:bg-slate-600">
+          ?
+        </span>
+        <span className="px-5 py-2 rounded-sm bg-slate-300 dark:bg-slate-600">
+          ?
+        </span>
       </div>
       <div className="my-5">
-        <p>Or log in with an email</p>
+        <p className="dark:text-black">Or log in with an email</p>
       </div>
       <form onSubmit={handleSubmit}>
         <div className="flex flex-col gap-5">
@@ -139,13 +153,13 @@ const Register: React.FC<{ store: AuthenStoreImpl }> = (props) => {
               {isShowPass ? (
                 <FiEyeOff
                   onClick={() => setIsShowPass(!isShowPass)}
-                  className="absolute right-1 top-2 cursor-pointer"
+                  className="absolute right-1 top-2 cursor-pointer dark:stroke-black"
                   color="gray"
                 />
               ) : (
                 <FiEye
                   onClick={() => setIsShowPass(!isShowPass)}
-                  className="absolute right-1 top-2 cursor-pointer"
+                  className="absolute right-1 top-2 cursor-pointer dark:stroke-black"
                   color="gray"
                 />
               )}
@@ -157,17 +171,20 @@ const Register: React.FC<{ store: AuthenStoreImpl }> = (props) => {
             <input
               type="checkbox"
               name="check1"
-              className="accent-black"
+              className="accent-black dark:accent-white"
               checked={checkBox.check1}
               onChange={checkBoxHandler}
             />
-            <label htmlFor="title1" className="font-light ml-2 text-sm">
+            <label
+              htmlFor="title1"
+              className="font-light ml-2 text-sm dark:text-black"
+            >
               Agree to{" "}
-              <span className="border-b-[1px] hover:border-black transition-all duration-250 cursor-pointer">
+              <span className="border-b-[1px] hover:border-black hover:text-black transition-all duration-250 cursor-pointer dark:text-black dark:border-b-black dark:hover:border-white dark:hover:text-white">
                 Terms and Conditions
               </span>{" "}
               &{" "}
-              <span className="border-b-[1px] hover:border-black transition-all duration-250 cursor-pointer">
+              <span className="border-b-[1px] hover:border-black hover:text-black transition-all duration-250 cursor-pointer dark:text-black dark:border-b-black dark:hover:border-white dark:hover:text-white">
                 Privacy Policy
               </span>
             </label>
@@ -176,16 +193,16 @@ const Register: React.FC<{ store: AuthenStoreImpl }> = (props) => {
             <input
               type="checkbox"
               name="check2"
-              className="accent-black"
+              className="accent-black dark:accent-white"
               checked={checkBox.check2}
               onChange={checkBoxHandler}
             />
             <label
               htmlFor="title2"
-              className="font-light ml-2 text-sm mt-[-3.5px]"
+              className="font-light ml-2 text-sm mt-[-3.5px] dark:text-black"
             >
               Agree to get time-saving{" "}
-              <span className="border-b-[1px] hover:border-black transition-all duration-250 cursor-pointer">
+              <span className="border-b-[1px] hover:border-black hover:text-black transition-all duration-250 cursor-pointer dark:text-black dark:border-b-black dark:hover:border-white dark:hover:text-white">
                 design articles
               </span>{" "}
               and new release notifications
@@ -196,8 +213,8 @@ const Register: React.FC<{ store: AuthenStoreImpl }> = (props) => {
           <button
             className={`px-10 py-2 w-full h-full flex font-bold ${
               checkCaseObj({ ...formData, ...checkBox })
-                ? "cursor-not-allowed  bg-gray-100 text-gray-300"
-                : "bg-black text-white"
+                ? "cursor-not-allowed  bg-[gray] text-gray-300 dark:bg-slate-300"
+                : "bg-black text-white border-[1px] border-[#554994] hover:border-white dark:bg-white dark:border-[#7696ff] dark:hover:border-[black]"
             } duration-150 ease-linear`}
             onClick={handleSubmit}
             // disabled={checkCaseObj({ ...formData, ...checkBox })}
@@ -205,7 +222,7 @@ const Register: React.FC<{ store: AuthenStoreImpl }> = (props) => {
             {awaitButton.onLoad ? (
               <div className="m-auto h-5">{awaitButton.animate}</div>
             ) : (
-              <div className="m-auto h-5">Register</div>
+              <div className="m-auto h-5 dark:text-black">Register</div>
             )}
           </button>
         </div>

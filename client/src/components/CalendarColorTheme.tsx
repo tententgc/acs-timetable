@@ -24,7 +24,7 @@ const CalendarColorTheme: React.FC<CalendarColorThemeProps> = observer(
     }, [props.colorStore]);
 
     return (
-      <div className="absolute border-2 w-[10rem] top-[5%] left-[2%] rounded-lg shadow-xl py-2">
+      <div className="absolute border-2 w-[10rem] top-[5%] left-[2%] rounded-lg shadow-xl py-2 dark:border-[#3f3f3f]">
         <div className="flex flex-col gap-[1px] px-2">
           {colordata.map((item, index) => {
             // wait fetch data from backend color table
@@ -39,11 +39,7 @@ const CalendarColorTheme: React.FC<CalendarColorThemeProps> = observer(
           })}
           {props.store.colorFilter.length ? (
             <div className="animate-popup">
-              <ColorTheme
-                title="reset filter"
-                color="FFFFFF"
-                store={props.store}
-              />
+              <ColorTheme title="reset filter" store={props.store} />
             </div>
           ) : (
             ""

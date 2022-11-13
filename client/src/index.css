@@ -6,7 +6,30 @@
 
 * {
   font-family: "Inter", sans-serif;
+  color:white;
 }
-.example::-webkit-scrollbar {
+* ::-webkit-scrollbar {
   display: none;
 }
+.handledark>input[type="time"]::-webkit-calendar-picker-indicator{
+  background-color:#2c2a45;
+  border-radius: 50%;
+  margin: 3px;
+  }
+
+.handledark>input[type="date"]::-webkit-calendar-picker-indicator{
+  background-color:#2c2a45;
+  border-radius: 50%;
+  margin: 3px;
+  }
+
+.handlelight>input[type="date"]::-webkit-calendar-picker-indicator{
+  background-color: white ! important;
+  border-radius: 50%;
+  margin: 3px;
+  }
+.handlelight>input[type="time"]::-webkit-calendar-picker-indicator{
+  background-color:white ! important;
+  border-radius: 50%;
+  margin: 3px;
+  }

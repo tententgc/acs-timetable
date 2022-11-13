@@ -21,7 +21,7 @@ interface CalendarBodyProps {
 
 const CalendarBody: React.FC<CalendarBodyProps> = observer((props) => {
   return (
-    <div className="border-2 rounded-3xl h-[90vh] m-14 bg-[#464675] overflow-scroll relative backdrop-blur-sm bg-opacity-40">
+    <div className="border-2 rounded-3xl h-[90vh] m-14 bg-[#464675] overflow-scroll relative backdrop-blur-sm bg-opacity-40 dark:bg-white dark:bg-opacity-30 duration-1000 ease-in dark:text-black dark:border-[#3f3f3f]">
       {props.store.workAll === null ? (
         <WaitingData animate={animationLottie} />
       ) : (
@@ -34,7 +34,7 @@ const CalendarBody: React.FC<CalendarBodyProps> = observer((props) => {
         {dateList.map((item, index) => {
           return (
             <div
-              className="flex justify-center items-center text-white border-b-[1px]"
+              className="flex justify-center items-center text-white dark:font-bold border-b-[1px] dark:text-[#3f3f3f] dark:border-[#3f3f3f] "
               key={index}
             >
               {item}

@@ -1,10 +1,55 @@
-API LIST
+API LIST ที่ใช้แน่ๆทั้งหมด 10 ตัว
+
+-       GET    ->  3
+-       PUT    ->  2
+-       POST   ->  4
+-       DELETE ->  1
+
 
 API: /api/auth/signin
 Method: POST 
 Todo: เข้าสู่ระบบ
-
+SQL: select * from users where email = :email
 
 API: /api/auth/signup
-Method: POST
+Method: POST 
 Todo: สมัครสมาชิค
+SQL: insert into users(user_id, email, username, password, role, create_at, update_at) values(:user_id, :email, :username, :password, :role, :create_at, :update_at) returning *
+
+API: /api/auth/verify
+Method: GET
+Todo: verify token
+
+API: /api/colors/add
+Method: POST
+Todo: Add color
+SQL: insert into colors(hex_code, color_meaning, create_at, update_at) values(:hex_code, :color_meaning, :create_at, :update_at)
+
+API: /api/colors/get
+Method: GET
+Todo: fetch color
+SQL: select * from colors
+
+API: /api/colors/update/{id}
+Method: PUT
+Todo: Update color
+SQL: update colors set color_meaning=:color_meaning, create_at=:create_at, update_at=:update_at where hex_code=:hex_code
+
+API: /api/event/add
+Method: POST
+Todo: add event
+SQL: insert into events(event_id, header, description, event_date, time_range, create_at, update_at, user_id, hex_code) values(:event_id, :header, :description, :event_date, :time_range, :create_at, :update_at, :user_id, :hex_code) 
+
+API: /api/event/update/{id}
+Method: PUT
+Todo: udpate event
+SQL: update events set header=:header ,description=:description, event_date=:event_date, time_range=:time_range, update_at=:update_at where event_id=:event_id returning *
+
+API: /api/event/get/{date}
+Method: GET
+Todo: select * from events as e inner join users as u on u.user_id = e.user_id inner join colors as c on c.hex_code = e.hex_code where e.event_date like %:date% and (u.user_id = :user_id or u.role = 'ADMIN') order by c.hex_code
+
+API: /api/event/delete/{id}
+Method: DELETE
+Todo: delete event
+SQL: delete from events where event_id=:event_id returning *

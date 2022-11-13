@@ -6,6 +6,7 @@ import { AuthenStore } from "../store/AuthenStore";
 
 interface CalendarModalProps {
   store: CalendarStoreImpl;
+  theme: boolean;
 }
 
 const CalendarModal: React.FC<CalendarModalProps> = observer((props) => {
@@ -28,6 +29,7 @@ const CalendarModal: React.FC<CalendarModalProps> = observer((props) => {
               key={Math.random()}
               store={AuthenStore}
               eventStore={props.store}
+              theme={props.theme}
             />
           );
         })}

@@ -17,9 +17,9 @@ const InputCustom: React.FC<InputCustomProps> = (props) => {
   return (
     <div>
       <input
-        className={`w-full border-[1px] outline-none rounded-[3px] px-[10px] py-[3px] focus:border-[#554994] ${
-          props.errors ? "border-red-500" : ""
-        }`}
+        className={`w-full border-[1px] outline-none rounded-[3px] px-[10px] py-[3px] border-[#554994] focus:border-white bg-black text-white
+                    dark:border-[#7696ff] dark:bg-white dark:text-black dark:focus:border-black
+        ${props.errors ? "border-red-500" : ""}`}
         {...props}
       />
       {props.errors && <ErrorMessage message={props.errors} />}

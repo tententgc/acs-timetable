@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import autoAnimate from "@formkit/auto-animate";
-import { MdOutlineClose } from "react-icons/md";
+import { FiX } from "react-icons/fi";
 import styled from "styled-components";
 import Chip from "./Chip";
 import { deleteEvent, EventType } from "../api/eventRouter";
@@ -15,6 +15,7 @@ import EventEditForm from "./EventEditForm";
 type CalendarAccordianProps = EventType & {
   store: AuthenStoreImpl;
   eventStore: CalendarStoreImpl;
+  theme: boolean;
 };
 
 const CalendarAccordian: React.FC<CalendarAccordianProps> = (props) => {
@@ -66,7 +67,7 @@ const CalendarAccordian: React.FC<CalendarAccordianProps> = (props) => {
   return (
     <div className="animate-popup">
       <div
-        className={`bg-[#1D2A36] p-5 flex items-center rounded-xl gap-4 ${
+        className={`bg-[#1D2A36] p-5 flex items-center rounded-xl gap-4 dark:bg-[#bfe2ff] ${
           show ? "max-w-[40vw] max-h-[50vh] overflow-scroll" : ""
         } min-w-[30vw]`}
       >
@@ -88,7 +89,7 @@ const CalendarAccordian: React.FC<CalendarAccordianProps> = (props) => {
               }`}
             >
               <HeaderCustom
-                className={`dropdown-label text-xl text-white hover:cursor-pointer ${
+                className={`dropdown-label text-xl text-white hover:cursor-pointer dark:text-black ${
                   show ? "text-3xl font-bold" : "max-w-[20vw] truncate"
                 }`}
                 onClick={reveal}
@@ -107,14 +108,14 @@ const CalendarAccordian: React.FC<CalendarAccordianProps> = (props) => {
               {props.store.user_status === 200 && !show ? (
                 <div className="flex">
                   <div
-                    className="mr-2 hover:bg-slate-300 hover:bg-opacity-40 duration-100 ease-in p-1 rounded-full cursor-pointer"
+                    className="mr-2 hover:bg-slate-300 hover:bg-opacity-40 duration-100 ease-in p-1 rounded-full cursor-pointer dark:hover:bg-white dark:hover:bg-opacity-70"
                     onClick={() => setOpenEditForm(true)}
                   >
                     <FcSupport size={25} />
                   </div>
 
                   <div
-                    className="mr-2 hover:bg-slate-300 hover:bg-opacity-40 duration-100 ease-in p-1 rounded-full cursor-pointer"
+                    className="mr-2 hover:bg-slate-300 hover:bg-opacity-40 duration-100 ease-in p-1 rounded-full cursor-pointer dark:hover:bg-white dark:hover:bg-opacity-70"
                     onClick={() => setDeleteInterupt(true)}
                   >
                     <FcFullTrash size={25} />
@@ -141,15 +142,25 @@ const CalendarAccordian: React.FC<CalendarAccordianProps> = (props) => {
             {show && (
               <div className="flex flex-grow items-start justify-end pl-10">
                 <div
-                  className="rounded-full p-2 hover:bg-slate-400 cursor-pointer duration-200 ease-linear"
+                  className="rounded-full p-2 hover:bg-slate-400 cursor-pointer duration-200 ease-linear dark:hover:bg-white dark:hover:bg-opacity-70"
                   onClick={reveal}
                 >
-                  <MdOutlineClose color="white" />
+                  <FiX className="dark:stroke-black" />
                 </div>
               </div>
             )}
           </div>
-          {show && <p className="text-white leading-7">{props.description}</p>}
+          {show && (
+            <div className="text-white leading-7  max-w-[35vw] break-words min-h-fit">
+              {props.description.split("\n").map((item) => {
+                return (
+                  <p className="dark:text-black" key={Math.random()}>
+                    {item}
+                  </p>
+                );
+              })}
+            </div>
+          )}
         </div>
       </div>
       {openEditform ? (
@@ -162,15 +173,20 @@ const CalendarAccordian: React.FC<CalendarAccordianProps> = (props) => {
           time_range={props.time_range}
           header={props.header}
           event_id={props.event_id}
+          theme={props.theme}
         />
       ) : (
         ""
       )}
+
       <ToastContainer
         position="bottom-right"
-        autoClose={1000}
-        hideProgressBar={true}
-        theme="light"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        theme={"dark"}
       />
     </div>
   );
@@ -190,7 +206,7 @@ const HeaderCustom = styled.p`
     height: 1px;
     bottom: 0px;
     left: 0;
-    background-color: white;
+    background-color: black;
     transform-origin: bottom right;
     transition: transform 0.2s ease-out;
   }

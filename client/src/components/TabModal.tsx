@@ -8,7 +8,7 @@ interface TabModalProps {
 
 const TabModal: React.FC<TabModalProps> = (props) => {
   return (
-    <div className="flex gap-5 border-b-[1px]">
+    <div className="flex gap-5 border-b-[1px] dark:border-black ">
       {props.items.map((item, index) => {
         return (
           <div
@@ -16,11 +16,11 @@ const TabModal: React.FC<TabModalProps> = (props) => {
             onClick={() => props.setTab(item)}
             className={`${
               item === props.getTabItem()
-                ? "font-medium border-b-black border-b-[1px]"
+                ? "font-black border-b-white border-b-[1px] dark:border-black "
                 : ""
-            } cursor-pointer duration-100`}
+            } cursor-pointer`}
           >
-            <p className="py-2">{item}</p>
+            <p className="py-2 dark:text-black">{item}</p>
           </div>
         );
       })}
