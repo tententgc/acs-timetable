@@ -37,7 +37,6 @@ const CalendarAccordian: React.FC<CalendarAccordianProps> = (props) => {
       autoAnimate(parent.current, {
         duration: 300,
         disrespectUserMotionPreference: true,
-        
       });
   }, [parent]);
 
@@ -154,7 +153,11 @@ const CalendarAccordian: React.FC<CalendarAccordianProps> = (props) => {
           {show && (
             <div className="text-white leading-7  max-w-[35vw] break-words min-h-fit">
               {props.description.split("\n").map((item) => {
-                return <p className="dark:text-black" key={Math.random()}>{item}</p>;
+                return (
+                  <p className="dark:text-black" key={Math.random()}>
+                    {item}
+                  </p>
+                );
               })}
             </div>
           )}
@@ -175,7 +178,7 @@ const CalendarAccordian: React.FC<CalendarAccordianProps> = (props) => {
       ) : (
         ""
       )}
-      
+
       <ToastContainer
         position="bottom-right"
         autoClose={5000}
@@ -184,7 +187,7 @@ const CalendarAccordian: React.FC<CalendarAccordianProps> = (props) => {
         closeOnClick
         rtl={false}
         theme={"dark"}
-        />
+      />
     </div>
   );
 };
@@ -203,7 +206,7 @@ const HeaderCustom = styled.p`
     height: 1px;
     bottom: 0px;
     left: 0;
-    background-color:black;
+    background-color: black;
     transform-origin: bottom right;
     transition: transform 0.2s ease-out;
   }
@@ -212,6 +215,3 @@ const HeaderCustom = styled.p`
     transform-origin: bottom left;
   }
 `;
-
-
-

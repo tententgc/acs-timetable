@@ -40,11 +40,7 @@ const CalendarColorTheme: React.FC<CalendarColorThemeProps> = observer(
           })}
           {props.store.colorFilter.length ? (
             <div className="animate-popup">
-              <ColorTheme
-                title="reset filter"
-                
-                store={props.store}
-              />
+              <ColorTheme title="reset filter" store={props.store} />
             </div>
           ) : (
             ""

@@ -23,10 +23,12 @@ const ColorTheme: React.FC<ColorThemeProps> = observer((props) => {
       onClick={() => handleClick(props.color as string, props.title)}
     >
       <div
-        className={`w-3 h-3 rounded-full ${props.color ? "" : "dark:bg-[#333333] bg-white"} duration-300 `}
-        style={props.color ? {backgroundColor : '#' + props.color}: {}}
+        className={`w-3 h-3 rounded-full ${
+          props.color ? "" : "dark:bg-[#333333] bg-white"
+        } duration-300 `}
+        style={props.color ? { backgroundColor: "#" + props.color } : {}}
       />
-      <p className="capitalize text-white dark:text-black" >{props.title}</p>
+      <p className="capitalize text-white dark:text-black">{props.title}</p>
     </span>
   );
 });

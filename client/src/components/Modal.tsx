@@ -10,7 +10,7 @@ import photo2 from "../assets/sign-in-image.png";
 interface ModalProps {
   isOpen: boolean;
   store: AuthenStoreImpl;
-  theme:boolean;
+  theme: boolean;
 }
 
 const Modal: React.FC<ModalProps> = (props) => {
@@ -42,11 +42,11 @@ const Modal: React.FC<ModalProps> = (props) => {
         <div
           className={`fixed h-[630px] w-[900px] top-[calc(50%-630px/2)] left-[calc(50%-840px/2)] rounded-xl flex p-4 bg-[#2c2a45] bg-opacity-95
            dark:bg-blue-200 dark:bg-opacity-95 ${
-            props.isOpen ? "animate-popup" : ""
-          }`}
+             props.isOpen ? "animate-popup" : ""
+           }`}
         >
           <div className="flex object-cover">
-            <img src={props.theme? photo : photo2} alt="" />
+            <img src={props.theme ? photo : photo2} alt="" />
           </div>
           <div className="ml-6 w-[370px]">
             <TabModal items={items} getTabItem={getTabItem} setTab={setTab} />
@@ -63,7 +63,7 @@ const Modal: React.FC<ModalProps> = (props) => {
             onClick={() => (props.store.isOpenModal = !props.store.isOpenModal)}
           >
             <div className="m-auto">
-              <FiX className="dark:stroke-black"/>
+              <FiX className="dark:stroke-black" />
             </div>
           </div>
         </div>

@@ -6,12 +6,14 @@ import {
   FcRadarPlot,
   FcCapacitor,
 } from "react-icons/fc";
-import {FiChevronRight} from "react-icons/fi"
+import { FiChevronRight } from "react-icons/fi";
 import EventForm from "./EventForm";
 import { CalendarStore } from "../store/CalendarStore";
 import { ColorStore } from "../store/ColorStore";
 
-const Drawer: React.FC<{ role: string; username: string; theme: boolean }> = (props) => {
+const Drawer: React.FC<{ role: string; username: string; theme: boolean }> = (
+  props
+) => {
   const [openDrawer, setOpenDrawer] = useState<boolean>(false);
   const [openList, setOpenList] = useState<{ form: boolean }>({ form: false });
 
@@ -79,7 +81,9 @@ const Drawer: React.FC<{ role: string; username: string; theme: boolean }> = (pr
                 className="animate-[spin_10s_linear_infinite]"
               />
             </div>
-            <p className="text-white text-xl dark:text-black">{props.username}</p>
+            <p className="text-white text-xl dark:text-black">
+              {props.username}
+            </p>
           </div>
           <div className="list-drawer mt-6">
             {props.role === "ADMIN" ? (

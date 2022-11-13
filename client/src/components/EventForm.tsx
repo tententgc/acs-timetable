@@ -11,7 +11,7 @@ interface EventFormProps {
   store: CalendarStoreImpl;
   role: string;
   colorStore: ColorStoreImpl;
-  theme:boolean;
+  theme: boolean;
 }
 
 const formItem: formDataType = {
@@ -103,7 +103,7 @@ const EventForm: React.FC<EventFormProps> = (props) => {
                 required={true}
               />
             </div>
-            <div className={`${props.theme?"handledark":"handlelight"}`}>
+            <div className={`${props.theme ? "handledark" : "handlelight"}`}>
               <input
                 type="date"
                 name="event_date"
@@ -131,7 +131,9 @@ const EventForm: React.FC<EventFormProps> = (props) => {
             />
           </div>
           <div className="mt-3 flex items-center justify-between">
-            <div className={`flex ${props.theme?"handledark":"handlelight"}`}>
+            <div
+              className={`flex ${props.theme ? "handledark" : "handlelight"}`}
+            >
               <p className="text-white mx-2 dark:text-black">from</p>
               <input
                 type="time"
@@ -148,7 +150,6 @@ const EventForm: React.FC<EventFormProps> = (props) => {
                 name="select-time-2"
                 onChange={handleChange}
               />
-
             </div>
             {props.role === "ADMIN" ? (
               <div className="mx-2 h-5 flex items-center justify-center">
@@ -160,7 +161,11 @@ const EventForm: React.FC<EventFormProps> = (props) => {
                 >
                   {props.colorStore.adminSelect.map((item) => {
                     return (
-                      <option className="dark:text-black" value={item.hex_code} key={Math.random()}>
+                      <option
+                        className="dark:text-black"
+                        value={item.hex_code}
+                        key={Math.random()}
+                      >
                         {item.color_meaning}
                       </option>
                     );

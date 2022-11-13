@@ -6,7 +6,7 @@ import { AuthenStore } from "../store/AuthenStore";
 
 interface CalendarModalProps {
   store: CalendarStoreImpl;
-  theme:boolean;
+  theme: boolean;
 }
 
 const CalendarModal: React.FC<CalendarModalProps> = observer((props) => {

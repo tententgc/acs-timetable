@@ -20,7 +20,7 @@ interface awaitButtonType {
 
 const formDefaultItem: formDataType = { email: "", password: "" };
 
-const Login: React.FC<{ store: AuthenStoreImpl; theme:boolean; }> = (props) => {
+const Login: React.FC<{ store: AuthenStoreImpl; theme: boolean }> = (props) => {
   const [formData, setFormData] = useState<formDataType>(formDefaultItem);
   const [isShowPass, setIsShowPass] = useState<Boolean>(false);
   const [errors, setErrors] = useState<formDataType>(formDefaultItem);
@@ -55,7 +55,7 @@ const Login: React.FC<{ store: AuthenStoreImpl; theme:boolean; }> = (props) => {
 
       if (res !== 200) {
         setAwaitButton({
-          animate: <FcCloseUpMode color={props.theme?"white":"black"} />,
+          animate: <FcCloseUpMode color={props.theme ? "white" : "black"} />,
           onLoad: true,
         });
         setErrors({
@@ -72,13 +72,25 @@ const Login: React.FC<{ store: AuthenStoreImpl; theme:boolean; }> = (props) => {
 
   return (
     <div className="flex flex-col">
-      <h1 className="text-[27px] font-bold my-7 text-white dark:text-black">Log in to your account</h1>
+      <h1 className="text-[27px] font-bold my-7 text-white dark:text-black">
+        Log in to your account
+      </h1>
       <div className="flex flex-row justify-between">
-        <span className="px-5 py-2 rounded-sm bg-slate-300 dark:bg-slate-600">?</span>
-        <span className="px-5 py-2 rounded-sm bg-slate-300 dark:bg-slate-600">?</span>
-        <span className="px-5 py-2 rounded-sm bg-slate-300 dark:bg-slate-600">?</span>
-        <span className="px-5 py-2 rounded-sm bg-slate-300 dark:bg-slate-600">?</span>
-        <span className="px-5 py-2 rounded-sm bg-slate-300 dark:bg-slate-600">?</span>
+        <span className="px-5 py-2 rounded-sm bg-slate-300 dark:bg-slate-600">
+          ?
+        </span>
+        <span className="px-5 py-2 rounded-sm bg-slate-300 dark:bg-slate-600">
+          ?
+        </span>
+        <span className="px-5 py-2 rounded-sm bg-slate-300 dark:bg-slate-600">
+          ?
+        </span>
+        <span className="px-5 py-2 rounded-sm bg-slate-300 dark:bg-slate-600">
+          ?
+        </span>
+        <span className="px-5 py-2 rounded-sm bg-slate-300 dark:bg-slate-600">
+          ?
+        </span>
       </div>
       <div className="my-5">
         <p className="text-white dark:text-black">Or log in with an email</p>
@@ -108,13 +120,13 @@ const Login: React.FC<{ store: AuthenStoreImpl; theme:boolean; }> = (props) => {
               <FiEyeOff
                 onClick={() => setIsShowPass(!isShowPass)}
                 className="absolute right-1 top-2 cursor-pointer dark:stroke-black"
-                color={props.theme?"gray":"black"}
+                color={props.theme ? "gray" : "black"}
               />
             ) : (
               <FiEye
                 onClick={() => setIsShowPass(!isShowPass)}
                 className="absolute right-1 top-2 cursor-pointer dark:stroke-black"
-                color={props.theme?"gray":"black"}
+                color={props.theme ? "gray" : "black"}
               />
             )}
           </div>

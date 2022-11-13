@@ -10,7 +10,7 @@ interface EventFormType {
   open: boolean;
   handleClose: () => void;
   store: CalendarStoreImpl;
-  theme:boolean;
+  theme: boolean;
 }
 
 type EventFormProps = PutEventRequest & EventFormType;
@@ -27,7 +27,7 @@ const EventEditForm: React.FC<EventFormProps> = (props) => {
     description: props.description,
     time_range: props.time_range,
     event_date: props.event_date,
-    theme:props.theme,
+    theme: props.theme,
   });
   const [timeRange, setTimeRange] = useState<{ t1: string; t2: string }>({
     t1: "",
@@ -101,7 +101,7 @@ const EventEditForm: React.FC<EventFormProps> = (props) => {
                 required={true}
               />
             </div>
-            <div className={`${props.theme?"handledark":"handlelight"}`}>
+            <div className={`${props.theme ? "handledark" : "handlelight"}`}>
               <input
                 type="date"
                 name="event_date"
@@ -130,7 +130,9 @@ const EventEditForm: React.FC<EventFormProps> = (props) => {
             />
           </div>
           <div className="mt-3 flex items-center justify-between">
-            <div className={`flex ${props.theme?"handledark":"handlelight"}`}>
+            <div
+              className={`flex ${props.theme ? "handledark" : "handlelight"}`}
+            >
               <p className="text-white mx-2 dark:text-black">from</p>
               <input
                 type="time"
@@ -164,7 +166,7 @@ const EventEditForm: React.FC<EventFormProps> = (props) => {
         position="bottom-right"
         autoClose={1000}
         hideProgressBar={true}
-        theme={props.theme?"dark":"light"}
+        theme={props.theme ? "dark" : "light"}
       />
     </div>
   );

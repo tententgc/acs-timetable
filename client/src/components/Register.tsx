@@ -27,7 +27,9 @@ interface awaitButtonType {
 
 const formDefaultItem: formDataType = { username: "", email: "", password: "" };
 
-const Register: React.FC<{ store: AuthenStoreImpl; theme:boolean }> = (props) => {
+const Register: React.FC<{ store: AuthenStoreImpl; theme: boolean }> = (
+  props
+) => {
   const [isShowPass, setIsShowPass] = useState<boolean>(false);
   const [formData, setFormData] = useState<formDataType>(formDefaultItem);
   const [errors, setErrors] = useState<formDataType>(formDefaultItem);
@@ -91,13 +93,25 @@ const Register: React.FC<{ store: AuthenStoreImpl; theme:boolean }> = (props) =>
 
   return (
     <div className="flex flex-col">
-      <h1 className="text-[27px] font-bold my-7 dark:text-black">Create account</h1>
+      <h1 className="text-[27px] font-bold my-7 dark:text-black">
+        Create account
+      </h1>
       <div className="flex flex-row justify-between">
-        <span className="px-5 py-2 rounded-sm bg-slate-300 dark:bg-slate-600">?</span>
-        <span className="px-5 py-2 rounded-sm bg-slate-300 dark:bg-slate-600">?</span>
-        <span className="px-5 py-2 rounded-sm bg-slate-300 dark:bg-slate-600">?</span>
-        <span className="px-5 py-2 rounded-sm bg-slate-300 dark:bg-slate-600">?</span>
-        <span className="px-5 py-2 rounded-sm bg-slate-300 dark:bg-slate-600">?</span>
+        <span className="px-5 py-2 rounded-sm bg-slate-300 dark:bg-slate-600">
+          ?
+        </span>
+        <span className="px-5 py-2 rounded-sm bg-slate-300 dark:bg-slate-600">
+          ?
+        </span>
+        <span className="px-5 py-2 rounded-sm bg-slate-300 dark:bg-slate-600">
+          ?
+        </span>
+        <span className="px-5 py-2 rounded-sm bg-slate-300 dark:bg-slate-600">
+          ?
+        </span>
+        <span className="px-5 py-2 rounded-sm bg-slate-300 dark:bg-slate-600">
+          ?
+        </span>
       </div>
       <div className="my-5">
         <p className="dark:text-black">Or log in with an email</p>
@@ -161,7 +175,10 @@ const Register: React.FC<{ store: AuthenStoreImpl; theme:boolean }> = (props) =>
               checked={checkBox.check1}
               onChange={checkBoxHandler}
             />
-            <label htmlFor="title1" className="font-light ml-2 text-sm dark:text-black">
+            <label
+              htmlFor="title1"
+              className="font-light ml-2 text-sm dark:text-black"
+            >
               Agree to{" "}
               <span className="border-b-[1px] hover:border-black hover:text-black transition-all duration-250 cursor-pointer dark:text-black dark:border-b-black dark:hover:border-white dark:hover:text-white">
                 Terms and Conditions
