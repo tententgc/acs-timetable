@@ -123,6 +123,8 @@ const EventEditForm: React.FC<EventFormProps> = (props) => {
               name="description"
               onChange={handleChange}
               value={formData.description}
+              spellCheck={false}
+              maxLength={255}
             />
           </div>
           <div className="mt-3 flex items-center justify-between">

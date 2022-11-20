@@ -149,7 +149,13 @@ const CalendarAccordian: React.FC<CalendarAccordianProps> = (props) => {
               </div>
             )}
           </div>
-          {show && <p className="text-white leading-7">{props.description}</p>}
+          {show && (
+            <div className="text-white leading-7 max-w-[35vw] break-words min-h-fit">
+              {props.description.split("\n").map((item) => {
+                return <p key={Math.random()}>{item}</p>;
+              })}
+            </div>
+          )}
         </div>
       </div>
       {openEditform ? (
