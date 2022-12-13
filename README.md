@@ -79,8 +79,8 @@ touch SecretKeyENV.java
 package com.oop.server.secret;
 
 public class SecretKeyENV {
-public static String secretKey = "your custom";
-public static String adminKey = "your custom";
+  public static String secretKey = "your custom";
+  public static String adminKey = "your custom";
 }
 ```
 
@@ -129,13 +129,6 @@ src/
 <br/>
 <br/>
 
-# How to use
+# How to install
 
-- สามารถดูวิธีการใช้งานได้ที่ [Click here](youtube...)
-
-<br/>
-<br/>
-<br/>
-<br/>
-
-# OOP Concept
+- สามารถดูวิธีการติดตั้งงานได้ที่ [Click here](https://youtu.be/h8YF-NsLznU)
